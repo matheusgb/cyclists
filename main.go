@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/api/routes"
+	routes "github.com/matheusgb/cyclists/api"
 )
 
 func main() {
