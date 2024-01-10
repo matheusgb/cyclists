@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	Database Database
+	Api      Api
 }
 
 type Database struct {
@@ -16,6 +17,10 @@ type Database struct {
 	Host     string
 	Port     string
 	Name     string
+}
+
+type Api struct {
+	Port string
 }
 
 func Init() Config {
