@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type EventSubscription struct {
+type EventUserSubscription struct {
 	EventID          uint      `gorm:"not null"`
 	BikeEvent        BikeEvent `gorm:"foreignKey:ID"`
 	UserID           uint      `gorm:"not null"`
