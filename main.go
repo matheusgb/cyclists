@@ -7,12 +7,11 @@ import (
 )
 
 func main() {
-	config.Init()
-	// config := config.Init()
+	config := config.Init()
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")
 	routes.BikeEvents(v1)
 
-	app.Listen(":3000")
+	app.Listen(config.Api.Port)
 }
