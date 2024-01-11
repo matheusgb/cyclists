@@ -1,4 +1,4 @@
-package database
+package gorm
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ type GormDatabase struct {
 	client *gorm.DB
 }
 
-func CreateGormDatabase() *GormDatabase {
+func CreateDatabase() *GormDatabase {
 	return &GormDatabase{}
 }
 
