@@ -8,7 +8,8 @@ import (
 
 func main() {
 	config := config.Init()
-	gorm.CreateDatabase().VerifyConnection(config)
+	client := gorm.Database().VerifyConnection(config)
+	gorm.RunMigrations(client, config)
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")
