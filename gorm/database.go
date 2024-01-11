@@ -13,24 +13,34 @@ type GormDatabase struct {
 	client *gorm.DB
 }
 
-func CreateDatabase() *GormDatabase {
+func Database() *GormDatabase {
 	return &GormDatabase{}
 }
 
-func (db *GormDatabase) VerifyConnection(config config.Config) {
+func (db *GormDatabase) VerifyConnection(config config.Config) *gorm.DB {
+	var client *gorm.DB
+	var err error
+
 	if db.client == nil {
-		db.Connect(config)
-	} else {
-		log.Println("Database already connected")
+		client, err = db.Connect(config)
+		if err != nil {
+			log.Fatal("Connection attempt failed: ", err)
+		}
 	}
+
+	return client
 }
 
-func (db *GormDatabase) Connect(config config.Config) {
+func (db *GormDatabase) Connect(config config.Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", config.Database.User, config.Database.Password, config.Database.Host, config.Database.Port, config.Database.Name)
+
 	client, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Connection attempt failed: ", err)
+		return nil, err
 	}
-	db.client = client
+
 	log.Println("Database connected")
+	db.client = client
+	return client, nil
 }
