@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/matheusgb/cyclists/config"
-	"github.com/matheusgb/cyclists/gorm"
+	gorm "github.com/matheusgb/cyclists/database"
 )
 
 func main() {
