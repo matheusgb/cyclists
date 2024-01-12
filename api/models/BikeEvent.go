@@ -8,13 +8,14 @@ import (
 
 type BikeEvent struct {
 	gorm.Model
-	Name                  string    `gorm:"not null" json:"name"`
-	StartDate             time.Time `gorm:"not null" json:"start_date"`
-	StartDateRegistration time.Time `gorm:"not null" json:"start_date_registration"`
-	EndDateRegistration   time.Time `gorm:"not null" json:"end_date_registration"`
-	AditionalInformation  *string   `json:"aditional_information"`
-	StartPlace            string    `gorm:"not null" json:"start_place"`
-	ParticipantsLimit     *uint     `json:"participants_limit"`
-	Organizer             uint      `gorm:"not null" json:"organizer"`
+	Name                  string    `gorm:"not null"`
+	StartDate             time.Time `gorm:"not null"`
+	StartDateRegistration time.Time `gorm:"not null"`
+	EndDateRegistration   time.Time `gorm:"not null"`
+	StartPlace            string    `gorm:"not null"`
+	Organizer             uint      `gorm:"not null"`
 	User                  User      `gorm:"foreignKey:Organizer"`
+	Deleted               bool      `gorm:"not null"`
+	AditionalInformation  *string
+	ParticipantsLimit     *uint
 }
