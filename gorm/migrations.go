@@ -1,11 +1,15 @@
 package gorm
 
 import (
+	"log"
+
 	"github.com/matheusgb/cyclists/api/models"
 	"github.com/matheusgb/cyclists/config"
-	"gorm.io/gorm"
 )
 
-func RunMigrations(client *gorm.DB, config config.Config) {
-	client.AutoMigrate(&models.BikeEvent{}, &models.User{}, &models.EventUserSubscription{})
+func (gormDB *GormDatabase) RunMigrations(config config.Config) {
+	if gormDB.client == nil {
+		log.Fatal("Client not initialized")
+	}
+	gormDB.client.AutoMigrate(&models.BikeEvent{}, &models.User{}, &models.EventUserSubscription{})
 }
