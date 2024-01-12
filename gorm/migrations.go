@@ -9,7 +9,7 @@ import (
 
 func (gormDB *GormDatabase) RunMigrations(config config.Config) {
 	if gormDB.client == nil {
-		log.Fatal("Client not initialized")
+		log.Fatal("Database client not initialized")
 	}
 	gormDB.client.AutoMigrate(&models.BikeEvent{}, &models.User{}, &models.EventUserSubscription{})
 }

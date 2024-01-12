@@ -22,9 +22,9 @@ func (gormDB *GormDatabase) InitializeClient(config config.Config) {
 
 	client, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to open client connection")
+		log.Fatal("Failed to open database client connection")
 	}
 
 	gormDB.client = client
-	log.Println("Client initialized")
+	log.Println("Database client initialized")
 }
