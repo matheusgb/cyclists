@@ -14,7 +14,7 @@ type UserResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func userResponse(userEntity *entities.User) *UserResponse {
+func ConvertUserEntityToResponse(userEntity *entities.User) *UserResponse {
 	return &UserResponse{
 		ID:        userEntity.ID,
 		Name:      userEntity.Name,
