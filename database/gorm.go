@@ -9,6 +9,7 @@ type IDatabase interface {
 	Connect(config config.Config)
 	InitializeClient(config config.Config)
 	RunMigrations(config config.Config)
+	GetClient() *gorm.DB
 }
 
 type GormDatabase struct {
