@@ -6,13 +6,13 @@ import (
 )
 
 type User struct {
-	service services.User
+	service services.IUser
 }
 
 type IUser interface {
 	CreateUser(ctx *fiber.Ctx) error
 }
 
-func Init(service services.User) IUser {
+func Init(service services.IUser) IUser {
 	return &User{service}
 }
