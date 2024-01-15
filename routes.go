@@ -2,9 +2,9 @@ package main
 
 import "github.com/gofiber/fiber/v2"
 
-func BikeEvents(app fiber.Router) {
-	bikeEvents := app.Group("/bike-events")
-	bikeEvents.Get("/", func(c *fiber.Ctx) error {
+func UserRoutes(app fiber.Router) {
+	User := app.Group("/user")
+	User.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
 }
