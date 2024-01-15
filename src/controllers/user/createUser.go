@@ -1,11 +1,10 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/matheusgb/cyclists/src/controllers/requests"
 	"github.com/matheusgb/cyclists/src/models/domains"
+	"github.com/matheusgb/cyclists/src/views"
 )
 
 func (user *User) CreateUser(ctx *fiber.Ctx) error {
@@ -28,9 +27,7 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	ctx.Status(201).JSON(fiber.Map{
-		"message": fmt.Sprintf("User %s created", service.Name),
-	})
-
+	view := views.ConvertUserEntityToResponse(&service)
+	ctx.Status(201).JSON(view)
 	return nil
 }
