@@ -3,10 +3,9 @@ package repositories
 import (
 	"github.com/matheusgb/cyclists/src/models/domains"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
-	"github.com/matheusgb/cyclists/src/views"
 )
 
-func (user *User) CreateUser(domain domains.User) (views.UserResponse, error) {
+func (user *User) CreateUser(domain domains.User) (entities.User, error) {
 	var entity entities.User
 
 	err := user.database.Create(&entities.User{
@@ -17,10 +16,8 @@ func (user *User) CreateUser(domain domains.User) (views.UserResponse, error) {
 	}).Scan(&entity).Error
 
 	if err != nil {
-		return views.UserResponse{}, err
+		return entity, err
 	}
 
-	response := views.ConvertUserEntityToResponse(&entity)
-
-	return *response, nil
+	return entity, nil
 }
