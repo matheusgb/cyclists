@@ -2,12 +2,12 @@ package repositories
 
 import (
 	"github.com/matheusgb/cyclists/src/models/domains"
-	"github.com/matheusgb/cyclists/src/views"
+	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 	"gorm.io/gorm"
 )
 
 type IUser interface {
-	CreateUser(user domains.User) (views.UserResponse, error)
+	CreateUser(user domains.User) (entities.User, error)
 }
 
 type User struct {
