@@ -14,7 +14,7 @@ func main() {
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")
-	BikeEvents(v1)
+	UserRoutes(v1)
 
 	app.Listen(config.Api.Port)
 }
