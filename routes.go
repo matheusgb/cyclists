@@ -8,4 +8,5 @@ import (
 func UserRoutes(app fiber.Router, controller controllers.IUser) {
 	User := app.Group("/user")
 	User.Post("/", controller.CreateUser)
+	User.Put("/:id", controller.UpdateUser)
 }
