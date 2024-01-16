@@ -8,6 +8,7 @@ import (
 
 type IUser interface {
 	CreateUser(user domains.User) (entities.User, error)
+	UpdateUser(user domains.User) (entities.User, error)
 }
 
 type User struct {
