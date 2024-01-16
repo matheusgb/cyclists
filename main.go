@@ -11,9 +11,11 @@ import (
 
 func main() {
 	config := config.Init()
+
 	database := gorm.Init()
 	database.Connect(config)
 	database.RunMigrations(config)
+
 	repository := repositories.Init(database.GetClient())
 	service := services.Init(repository)
 	controller := controllers.Init(service)
