@@ -8,7 +8,7 @@ import (
 )
 
 func (user *User) CreateUser(ctx *fiber.Ctx) error {
-	var request requests.UserCreate
+	var request requests.CreateUser
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
@@ -17,7 +17,7 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	domain := domains.Init(request.Email, request.Password, request.PasswordConfirmation, request.Name)
+	domain := domains.InitCreate(request.Email, request.Password, request.PasswordConfirmation, request.Name)
 
 	service, err := user.service.CreateUser(*domain)
 	if err != nil {
