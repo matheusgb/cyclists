@@ -11,6 +11,7 @@ type User struct {
 
 type IUser interface {
 	CreateUser(ctx *fiber.Ctx) error
+	UpdateUser(ctx *fiber.Ctx) error
 }
 
 func Init(service services.IUser) IUser {
