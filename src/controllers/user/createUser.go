@@ -19,15 +19,15 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 
 	domain := domains.InitCreate(request.Email, request.Password, request.PasswordConfirmation, request.Name)
 
-	service, err := user.service.CreateUser(*domain)
+	entity, err := user.service.CreateUser(*domain)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
 		})
-		return err
+		return nil
 	}
 
-	view := views.ConvertUserEntityToResponse(&service)
+	view := views.ConvertUserEntityToResponse(&entity)
 	ctx.Status(201).JSON(view)
 	return nil
 }
