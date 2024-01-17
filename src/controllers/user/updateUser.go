@@ -20,15 +20,15 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 
 	domain := domains.InitUpdate(request.Name, UserID)
 
-	service, err := user.service.UpdateUser(*domain)
+	entity, err := user.service.UpdateUser(*domain)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
 		})
-		return err
+		return nil
 	}
 
-	view := views.ConvertUserEntityToResponse(&service)
-	ctx.Status(201).JSON(view)
+	view := views.ConvertUserEntityToResponse(&entity)
+	ctx.Status(200).JSON(view)
 	return nil
 }
