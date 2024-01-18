@@ -27,10 +27,12 @@ func main() {
 	databaseClient := database.GetClient()
 
 	userControllers := InitUserLayers(databaseClient)
+	bikeEventControllers := InitBikeEventLayers(databaseClient)
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")
 	routes.UserRoutes(v1, userControllers)
+	routes.BikeEventRoutes(v1, bikeEventControllers)
 
 	app.Listen(config.Api.Port)
 }
