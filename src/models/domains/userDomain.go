@@ -23,3 +23,9 @@ func InitUpdate(name, id string) *User {
 		Name: name,
 	}
 }
+
+func InitID(id string) *User {
+	return &User{
+		ID: id,
+	}
+}
