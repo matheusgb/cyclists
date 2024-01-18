@@ -9,6 +9,9 @@ import (
 type IUser interface {
 	CreateUser(user domains.User) (entities.User, error)
 	UpdateUser(user domains.User) (entities.User, error)
+	GetUser(user domains.User) (entities.User, error)
+	DeleteUser(user domains.User) (entities.User, error)
+	GetAllUsers() ([]entities.User, error)
 }
 
 type User struct {
