@@ -10,6 +10,16 @@ import (
 )
 
 func main() {
+	// TODO: Add remaining CRUD (BikeEvents and eventUserSubscription)
+	// TODO: Improve error handling
+	// TODO: Add JWT
+	// TODO: Add Logger
+	// TODO: Change password using sendgrid
+	// TODO: Add Redis
+	// TODO: Add Tests
+	// TODO: Add Docker
+	// TODO: Add CI/CD
+	// TODO: Add Swagger
 	config := config.Init()
 
 	database := gorm.Init()
