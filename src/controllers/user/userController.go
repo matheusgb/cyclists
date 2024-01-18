@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/src/models/services"
+	services "github.com/matheusgb/cyclists/src/models/services/user"
 )
 
 type User struct {

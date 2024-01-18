@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/src/models/domains"
-	"github.com/matheusgb/cyclists/src/views"
+	domains "github.com/matheusgb/cyclists/src/models/domains/user"
+	views "github.com/matheusgb/cyclists/src/views/user"
 )
 
 func (user *User) GetUser(ctx *fiber.Ctx) error {

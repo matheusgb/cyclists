@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/matheusgb/cyclists/src/models/domains"
-	"github.com/matheusgb/cyclists/src/models/repositories"
+	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
+	repositories "github.com/matheusgb/cyclists/src/models/repositories/user"
 )
 
 type IUser interface {

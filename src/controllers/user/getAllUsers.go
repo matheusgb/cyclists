@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/src/views"
+	views "github.com/matheusgb/cyclists/src/views/user"
 )
 
 func (user *User) GetAllUsers(ctx *fiber.Ctx) error {

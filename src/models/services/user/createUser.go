@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/matheusgb/cyclists/src/models/domains"
+	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
 

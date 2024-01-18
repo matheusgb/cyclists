@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/src/models/domains"
+	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
 func (user *User) DeleteUser(ctx *fiber.Ctx) error {
