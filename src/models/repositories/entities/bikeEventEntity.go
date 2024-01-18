@@ -15,7 +15,6 @@ type BikeEvent struct {
 	StartPlace            string    `gorm:"not null"`
 	Organizer             uint      `gorm:"not null"`
 	User                  User      `gorm:"foreignKey:Organizer"`
-	Deleted               bool      `gorm:"not null"`
 	AditionalInformation  *string
 	ParticipantsLimit     *uint
 }

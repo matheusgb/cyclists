@@ -1,8 +1,9 @@
 package entities
 
 import (
-	"database/sql"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type EventUserSubscription struct {
@@ -12,7 +13,6 @@ type EventUserSubscription struct {
 	UserID           uint      `gorm:"not null"`
 	User             User      `gorm:"foreignKey:UserID"`
 	SubscriptionDate time.Time `gorm:"not null"`
-	Deleted          bool      `gorm:"not null"`
 	CreatedAt        time.Time
-	DeletedAt        sql.NullTime `gorm:"index"`
+	DeletedAt        gorm.DeletedAt `gorm:"index"`
 }
