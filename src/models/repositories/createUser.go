@@ -12,7 +12,6 @@ func (user *User) CreateUser(domain domains.User) (entities.User, error) {
 		Name:     domain.Name,
 		Email:    domain.Email,
 		Password: domain.Password,
-		Deleted:  false,
 	}).Scan(&entity).Error
 
 	if err != nil {
