@@ -7,12 +7,11 @@ import (
 )
 
 type EventUserSubscription struct {
-	ID               uint      `gorm:"primarykey"`
-	BikeEventID      uint      `gorm:"not null"`
-	BikeEvent        BikeEvent `gorm:"foreignKey:BikeEventID"`
-	UserID           uint      `gorm:"not null"`
-	User             User      `gorm:"foreignKey:UserID"`
-	SubscriptionDate time.Time `gorm:"not null"`
-	CreatedAt        time.Time
-	DeletedAt        gorm.DeletedAt `gorm:"index"`
+	ID          uint      `gorm:"primarykey"`
+	BikeEventID uint      `gorm:"not null"`
+	BikeEvent   BikeEvent `gorm:"foreignKey:BikeEventID"`
+	UserID      uint      `gorm:"not null"`
+	User        User      `gorm:"foreignKey:UserID"`
+	CreatedAt   time.Time
+	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }
