@@ -23,3 +23,11 @@ func ConvertUserEntityToResponse(userEntity *entities.User) *UserResponse {
 		UpdatedAt: userEntity.UpdatedAt,
 	}
 }
+
+func ConvertAllUsersEntityToResponse(usersEntity []entities.User) []UserResponse {
+	var usersResponse []UserResponse
+	for _, userEntity := range usersEntity {
+		usersResponse = append(usersResponse, *ConvertUserEntityToResponse(&userEntity))
+	}
+	return usersResponse
+}
