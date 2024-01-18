@@ -4,7 +4,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/matheusgb/cyclists/src/controllers/requests"
 	"github.com/matheusgb/cyclists/src/models/domains"
-	"github.com/matheusgb/cyclists/src/views"
 )
 
 func (user *User) UpdateUser(ctx *fiber.Ctx) error {
@@ -20,7 +19,7 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 
 	domain := domains.InitUpdate(request.Name, UserID)
 
-	entity, err := user.service.UpdateUser(*domain)
+	_, err := user.service.UpdateUser(*domain)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
@@ -28,7 +27,6 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	view := views.ConvertUserEntityToResponse(&entity)
-	ctx.Status(200).JSON(view)
+	ctx.Status(204)
 	return nil
 }
