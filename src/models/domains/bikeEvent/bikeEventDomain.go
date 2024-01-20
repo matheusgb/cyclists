@@ -26,3 +26,16 @@ func InitCreate(name, startPlace string, aditionalInformation *string, startDate
 		ParticipantsLimit:     participantsLimit,
 	}
 }
+
+func InitUpdate(id, name, startPlace string, aditionalInformation *string, startDate, startDateRegistration, endDateRegistration time.Time, participantsLimit *uint) *BikeEvent {
+	return &BikeEvent{
+		ID:                    id,
+		Name:                  name,
+		StartDate:             startDate,
+		StartDateRegistration: startDateRegistration,
+		EndDateRegistration:   endDateRegistration,
+		StartPlace:            startPlace,
+		AditionalInformation:  aditionalInformation,
+		ParticipantsLimit:     participantsLimit,
+	}
+}
