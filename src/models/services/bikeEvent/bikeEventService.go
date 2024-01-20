@@ -8,6 +8,7 @@ import (
 
 type IBikeEvent interface {
 	CreateBikeEvent(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
+	UpdateBikeEvent(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
 }
 
 type BikeEvent struct {
