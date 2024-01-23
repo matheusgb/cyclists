@@ -18,5 +18,8 @@ func UserRoutes(app fiber.Router, controller Ucontrollers.IUser) {
 func BikeEventRoutes(app fiber.Router, controller Bcontrollers.IBikeEvent) {
 	bikeEvent := app.Group("/bike-event")
 	bikeEvent.Post("/", controller.CreateBikeEvent)
+	bikeEvent.Get("/", controller.GetAllBikeEvents)
+	bikeEvent.Get("/:id", controller.GetBikeEvent)
 	bikeEvent.Patch("/:id", controller.UpdateBikeEvent)
+	bikeEvent.Delete("/:id", controller.DeleteBikeEvent)
 }
