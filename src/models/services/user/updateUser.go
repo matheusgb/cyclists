@@ -6,9 +6,5 @@ import (
 )
 
 func (user *User) UpdateUser(domain domains.User) (entities.User, error) {
-	entity, err := user.repository.UpdateUser(domain)
-	if err != nil {
-		return entity, err
-	}
-	return entity, nil
+	return user.repository.UpdateUser(domain)
 }
