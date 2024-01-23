@@ -39,3 +39,9 @@ func InitUpdate(id, name, startPlace string, aditionalInformation *string, start
 		ParticipantsLimit:     participantsLimit,
 	}
 }
+
+func InitID(id string) *BikeEvent {
+	return &BikeEvent{
+		ID: id,
+	}
+}
