@@ -12,9 +12,9 @@ type BikeEvent struct {
 type IBikeEvent interface {
 	CreateBikeEvent(ctx *fiber.Ctx) error
 	UpdateBikeEvent(ctx *fiber.Ctx) error
-	// DeleteBikeEvent(ctx *fiber.Ctx) error
-	// GetBikeEvent(ctx *fiber.Ctx) error
-	// GetAllBikeEvents(ctx *fiber.Ctx) error
+	DeleteBikeEvent(ctx *fiber.Ctx) error
+	GetBikeEvent(ctx *fiber.Ctx) error
+	GetAllBikeEvents(ctx *fiber.Ctx) error
 }
 
 func Init(service services.IBikeEvent) IBikeEvent {
