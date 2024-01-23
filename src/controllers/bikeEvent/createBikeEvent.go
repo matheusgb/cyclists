@@ -27,7 +27,7 @@ func (bikeEvent *BikeEvent) CreateBikeEvent(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	view := views.ConvertUserEntityToResponse(&entity)
+	view := views.ConvertBikeEventEntityToResponse(&entity)
 	ctx.Status(201).JSON(view)
 	return nil
 }
