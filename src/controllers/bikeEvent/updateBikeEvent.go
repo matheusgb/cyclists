@@ -11,6 +11,11 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
 	var request requests.UpdateBikeEvent
 
 	bikeEventID := ctx.Params("id", "")
+	if bikeEventID == "" {
+		ctx.Status(400).JSON(fiber.Map{
+			"message": "Invalid request",
+		})
+	}
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
@@ -29,7 +34,7 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	view := views.ConvertUserEntityToResponse(&entity)
+	view := views.ConvertBikeEventEntityToResponse(&entity)
 	ctx.Status(201).JSON(view)
 	return nil
 }

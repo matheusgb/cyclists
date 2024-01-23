@@ -9,6 +9,11 @@ import (
 func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 	var request requests.UpdateUser
 	UserID := ctx.Params("id", "")
+	if UserID == "" {
+		ctx.Status(400).JSON(fiber.Map{
+			"message": "Invalid request",
+		})
+	}
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
