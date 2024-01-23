@@ -20,7 +20,7 @@ type BikeEventResponse struct {
 	UpdatedAt             time.Time `json:"updated_at"`
 }
 
-func ConvertUserEntityToResponse(bikeEventEntity *entities.BikeEvent) *BikeEventResponse {
+func ConvertBikeEventEntityToResponse(bikeEventEntity *entities.BikeEvent) *BikeEventResponse {
 	return &BikeEventResponse{
 		ID:                    bikeEventEntity.ID,
 		Name:                  bikeEventEntity.Name,
@@ -34,4 +34,12 @@ func ConvertUserEntityToResponse(bikeEventEntity *entities.BikeEvent) *BikeEvent
 		CreatedAt:             bikeEventEntity.CreatedAt,
 		UpdatedAt:             bikeEventEntity.UpdatedAt,
 	}
+}
+
+func ConvertAllBikeEventsEntityToResponse(bikeEventEntity []entities.BikeEvent) []BikeEventResponse {
+	var bikeEventsResponse []BikeEventResponse
+	for _, bikeEventEntity := range bikeEventEntity {
+		bikeEventsResponse = append(bikeEventsResponse, *ConvertBikeEventEntityToResponse(&bikeEventEntity))
+	}
+	return bikeEventsResponse
 }
