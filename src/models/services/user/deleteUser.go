@@ -6,9 +6,5 @@ import (
 )
 
 func (user *User) DeleteUser(domain domains.User) (entities.User, error) {
-	entity, err := user.repository.DeleteUser(domain)
-	if err != nil {
-		return entity, err
-	}
-	return entity, nil
+	return user.repository.DeleteUser(domain)
 }
