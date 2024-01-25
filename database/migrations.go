@@ -11,5 +11,5 @@ func (gormDB *GormDatabase) RunMigrations(config config.Config) {
 	if gormDB.client == nil {
 		log.Fatal("Database client not initialized")
 	}
-	gormDB.client.AutoMigrate(&entities.BikeEvent{}, &entities.User{}, &entities.EventUserSubscription{})
+	gormDB.client.AutoMigrate(&entities.BikeEvent{}, &entities.User{}, &entities.UserSubscription{})
 }
