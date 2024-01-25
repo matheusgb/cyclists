@@ -13,7 +13,7 @@ func (gormDB *GormDatabase) Connect(config config.Config) {
 	if gormDB.client == nil {
 		gormDB.InitializeClient(config)
 	} else {
-		log.Fatal("Database connection already established")
+		log.Fatal("database connection already established")
 	}
 }
 
@@ -22,9 +22,9 @@ func (gormDB *GormDatabase) InitializeClient(config config.Config) {
 
 	client, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to open database client connection")
+		log.Fatal("failed to open database client connection")
 	}
 
 	gormDB.client = client
-	log.Println("Database client initialized")
+	log.Println("database client initialized")
 }
