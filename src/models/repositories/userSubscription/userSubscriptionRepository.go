@@ -8,6 +8,7 @@ import (
 
 type IUserSubscription interface {
 	CreateUserSubscription(userSubscription domains.UserSubscription) (entities.UserSubscription, error)
+	DeleteUserSubscription(userSubscription domains.UserSubscription) (entities.UserSubscription, error)
 }
 
 type UserSubscription struct {
