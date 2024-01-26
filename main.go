@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	// TODO: Add remaining CRUD (BikeEvents and eventUserSubscription)
+	// TODO: Add remaining CRUD (eventUserSubscription)
 	// TODO: Improve error handling
 	// TODO: Add validations (email, password, etc)
 	// TODO: Add JWT
@@ -28,11 +28,13 @@ func main() {
 
 	userControllers := InitUserLayers(databaseClient)
 	bikeEventControllers := InitBikeEventLayers(databaseClient)
+	userSubscriptionControllers := InitUserSubscriptionLayers(databaseClient)
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")
 	routes.UserRoutes(v1, userControllers)
 	routes.BikeEventRoutes(v1, bikeEventControllers)
+	routes.UserSubscriptionRoutes(v1, userSubscriptionControllers)
 
 	app.Listen(config.Api.Port)
 }
