@@ -12,3 +12,9 @@ func InitCreate(bikeEventID, userID uint) *UserSubscription {
 		UserID:      userID,
 	}
 }
+
+func InitID(id string) *UserSubscription {
+	return &UserSubscription{
+		ID: id,
+	}
+}
