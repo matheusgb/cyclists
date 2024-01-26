@@ -28,4 +28,5 @@ func BikeEventRoutes(app fiber.Router, controller Bcontrollers.IBikeEvent) {
 func UserSubscriptionRoutes(app fiber.Router, controller UScontrollers.IUserSubscription) {
 	userSubscription := app.Group("/user-subscription")
 	userSubscription.Post("/", controller.CreateUserSubscription)
+	userSubscription.Delete("/:id", controller.DeleteUserSubscription)
 }
