@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	Bcontrollers "github.com/matheusgb/cyclists/src/controllers/bikeEvent"
 	Ucontrollers "github.com/matheusgb/cyclists/src/controllers/user"
+	UScontrollers "github.com/matheusgb/cyclists/src/controllers/userSubscription"
 )
 
 func UserRoutes(app fiber.Router, controller Ucontrollers.IUser) {
@@ -22,4 +23,9 @@ func BikeEventRoutes(app fiber.Router, controller Bcontrollers.IBikeEvent) {
 	bikeEvent.Get("/:id", controller.GetBikeEvent)
 	bikeEvent.Patch("/:id", controller.UpdateBikeEvent)
 	bikeEvent.Delete("/:id", controller.DeleteBikeEvent)
+}
+
+func UserSubscriptionRoutes(app fiber.Router, controller UScontrollers.IUserSubscription) {
+	userSubscription := app.Group("/user-subscription")
+	userSubscription.Post("/", controller.CreateUserSubscription)
 }
