@@ -18,6 +18,7 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(domain domains.BikeEvent) (entities.
 		StartDateRegistration: domain.StartDateRegistration,
 		EndDateRegistration:   domain.EndDateRegistration,
 		ParticipantsLimit:     domain.ParticipantsLimit,
+		Organizer:             domain.Organizer,
 	}).Scan(&entity)
 	if result.Error != nil {
 		return entity, result.Error
