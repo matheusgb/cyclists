@@ -12,6 +12,7 @@ type UserSubscription struct {
 type IUserSubscription interface {
 	CreateUserSubscription(ctx *fiber.Ctx) error
 	DeleteUserSubscription(ctx *fiber.Ctx) error
+	ListUsersByBikeEvent(ctx *fiber.Ctx) error
 }
 
 func Init(service services.IUserSubscription) IUserSubscription {
