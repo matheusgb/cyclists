@@ -10,7 +10,7 @@ import (
 func (bikeEvent *BikeEvent) GetBikeEvent(domain domains.BikeEvent) (entities.BikeEvent, error) {
 	var entity entities.BikeEvent
 
-	result := bikeEvent.database.Where("id = ?", domain.ID).First(&entity)
+	result := bikeEvent.database.Joins("User").First(&entity, domain.ID)
 	if result.Error != nil {
 		return entity, result.Error
 	}
@@ -18,6 +18,5 @@ func (bikeEvent *BikeEvent) GetBikeEvent(domain domains.BikeEvent) (entities.Bik
 	if result.Row() == nil {
 		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
 	}
-
 	return entity, nil
 }
