@@ -27,7 +27,7 @@ func InitCreate(name, startPlace string, aditionalInformation *string, startDate
 	}
 }
 
-func InitUpdate(id, name, startPlace string, aditionalInformation *string, startDate, startDateRegistration, endDateRegistration time.Time, participantsLimit *uint) *BikeEvent {
+func InitUpdate(id, name, startPlace string, aditionalInformation *string, startDate, startDateRegistration, endDateRegistration time.Time, participantsLimit *uint, organizer uint) *BikeEvent {
 	return &BikeEvent{
 		ID:                    id,
 		Name:                  name,
@@ -35,6 +35,7 @@ func InitUpdate(id, name, startPlace string, aditionalInformation *string, start
 		StartDateRegistration: startDateRegistration,
 		EndDateRegistration:   endDateRegistration,
 		StartPlace:            startPlace,
+		Organizer:             organizer,
 		AditionalInformation:  aditionalInformation,
 		ParticipantsLimit:     participantsLimit,
 	}
