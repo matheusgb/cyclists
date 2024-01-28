@@ -13,7 +13,7 @@ type UserSubscriptionResponse struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-func ConvertUserSubscriptionEntityToResponse(userSubscriptionEntity *entities.UserSubscription) *UserSubscriptionResponse {
+func ConvertUserSubscriptionEntityToResponse(userSubscriptionEntity entities.UserSubscription) *UserSubscriptionResponse {
 	return &UserSubscriptionResponse{
 		ID:          userSubscriptionEntity.ID,
 		BikeEventID: userSubscriptionEntity.BikeEventID,
