@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
-	views "github.com/matheusgb/cyclists/src/views/bikeEvent"
+	"github.com/matheusgb/cyclists/src/views"
 )
 
 func (bikeEvent *BikeEvent) GetBikeEvent(ctx *fiber.Ctx) error {

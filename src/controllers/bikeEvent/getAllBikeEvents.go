@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	views "github.com/matheusgb/cyclists/src/views/bikeEvent"
+	"github.com/matheusgb/cyclists/src/views"
 )
 
 func (bikeEvent *BikeEvent) GetAllBikeEvents(ctx *fiber.Ctx) error {
