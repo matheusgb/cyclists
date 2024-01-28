@@ -9,7 +9,7 @@ import (
 func (bikeEvent *BikeEvent) GetAllBikeEvents() ([]entities.BikeEvent, error) {
 	var entities []entities.BikeEvent
 
-	result := bikeEvent.database.Joins("User").Find(&entities)
+	result := bikeEvent.database.Joins("User").Preload("Participants").Find(&entities)
 	if result.Error != nil {
 		return entities, result.Error
 	}

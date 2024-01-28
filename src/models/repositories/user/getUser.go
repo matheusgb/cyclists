@@ -10,7 +10,7 @@ import (
 func (user *User) GetUser(domain domains.User) (entities.User, error) {
 	var entity entities.User
 
-	result := user.database.Where("id = ?", domain.ID).First(&entity)
+	result := user.database.Where("id = ?", domain.ID).Preload("BikeEvents").First(&entity)
 	if result.Error != nil {
 		return entity, result.Error
 	}

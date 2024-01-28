@@ -15,6 +15,7 @@ type BikeEvent struct {
 	StartPlace            string    `gorm:"not null"`
 	Organizer             uint      `gorm:"not null"`
 	User                  User      `gorm:"foreignKey:Organizer"`
+	Participants          []User    `gorm:"many2many:user_subscriptions;"`
 	AditionalInformation  *string
 	ParticipantsLimit     *uint
 }

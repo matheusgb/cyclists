@@ -9,7 +9,7 @@ import (
 func (user *User) GetAllUsers() ([]entities.User, error) {
 	var entities []entities.User
 
-	result := user.database.Select("id, name, email, created_at, updated_at").Find(&entities)
+	result := user.database.Select("id, name, email, created_at, updated_at").Preload("BikeEvents").Find(&entities)
 	if result.Error != nil {
 		return entities, result.Error
 	}
