@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
+	"github.com/matheusgb/cyclists/validator"
 )
 
 func (user *User) CreateUser(ctx *fiber.Ctx) error {
@@ -14,6 +17,14 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 			"message": "Invalid request",
 		})
 		return err
+	}
+
+	errValidator := validator.Struct(request)
+	if errValidator != nil {
+		ctx.Status(400).JSON(fiber.Map{
+			"message": fmt.Sprintf("Invalid request: %v", errValidator),
+		})
+		return nil
 	}
 
 	domain := domains.InitCreate(request.Email, request.Password, request.PasswordConfirmation, request.Name)
