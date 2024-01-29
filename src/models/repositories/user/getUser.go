@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
@@ -13,9 +11,6 @@ func (user *User) GetUser(domain domains.User) (entities.User, error) {
 	result := user.database.Where("id = ?", domain.ID).Preload("BikeEvents").First(&entity)
 	if result.Error != nil {
 		return entity, result.Error
-	}
-	if result.Row() == nil {
-		return entity, fmt.Errorf("user with id %s not found", domain.ID)
 	}
 
 	return entity, nil
