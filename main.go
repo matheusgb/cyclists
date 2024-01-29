@@ -5,6 +5,7 @@ import (
 	"github.com/matheusgb/cyclists/config"
 	gorm "github.com/matheusgb/cyclists/database"
 	routes "github.com/matheusgb/cyclists/src/controllers"
+	"github.com/matheusgb/cyclists/validator"
 )
 
 func main() {
@@ -24,6 +25,8 @@ func main() {
 	database.Connect(config)
 	database.RunMigrations(config)
 	databaseClient := database.GetClient()
+
+	validator.Init()
 
 	userControllers := InitUserLayers(databaseClient)
 	bikeEventControllers := InitBikeEventLayers(databaseClient)
