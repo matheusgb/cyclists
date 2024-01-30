@@ -20,12 +20,13 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(domain domains.BikeEvent) (entities.
 		ParticipantsLimit:     domain.ParticipantsLimit,
 		Organizer:             domain.Organizer,
 	}).Scan(&entity)
-	if result.Error != nil {
-		return entity, result.Error
-	}
 
 	if result.RowsAffected == 0 {
 		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
+	}
+
+	if result.Error != nil {
+		return entity, result.Error
 	}
 
 	return entity, nil
