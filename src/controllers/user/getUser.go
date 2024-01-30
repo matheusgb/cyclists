@@ -10,7 +10,7 @@ func (user *User) GetUser(ctx *fiber.Ctx) error {
 	UserID := ctx.Params("id", "")
 	if UserID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "User ID is required",
 		})
 	}
 
