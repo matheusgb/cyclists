@@ -13,9 +13,11 @@ func (user *User) UpdateUser(domain domains.User) (entities.User, error) {
 	result := user.database.Where("id = ?", domain.ID).Updates(&entities.User{
 		Name: domain.Name,
 	}).Scan(&entity)
+
 	if result.RowsAffected == 0 {
 		return entity, fmt.Errorf("User with id %s not found", domain.ID)
 	}
+
 	if result.Error != nil {
 		return entity, result.Error
 	}
