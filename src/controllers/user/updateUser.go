@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
+	"github.com/matheusgb/cyclists/validator"
 )
 
 func (user *User) UpdateUser(ctx *fiber.Ctx) error {
@@ -11,7 +12,7 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 	UserID := ctx.Params("id", "")
 	if UserID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "User ID is required",
 		})
 	}
 
@@ -20,6 +21,14 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 			"message": "Invalid request",
 		})
 		return err
+	}
+
+	errValidator := validator.UpdateUser(request)
+	if errValidator != nil {
+		ctx.Status(400).JSON(fiber.Map{
+			"message": errValidator,
+		})
+		return nil
 	}
 
 	domain := domains.InitUpdate(request.Name, UserID)
