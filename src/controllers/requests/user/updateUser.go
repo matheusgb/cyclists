@@ -1,6 +1,5 @@
 package requests
 
 type UpdateUser struct {
-	ID   string `json:"-"`
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required,min=3,max=255"`
 }
