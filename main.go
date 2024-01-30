@@ -11,8 +11,9 @@ import (
 func main() {
 	// TODO: Improve error handling
 	// TODO: Add validations (email, password, etc)
+	// TODO: Add validations using database (unique email, etc)
+	// TODO: Add Logs
 	// TODO: Add JWT Login
-	// TODO: Add Logger
 	// TODO: Change password using sendgrid
 	// TODO: Add Redis
 	// TODO: Add Tests
