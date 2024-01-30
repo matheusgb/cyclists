@@ -1,6 +1,9 @@
 package validator
 
 import (
+	"reflect"
+	"strings"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -12,18 +15,17 @@ type ErrorResponse struct {
 
 func Init() {
 	Validator = validator.New(validator.WithRequiredStructEnabled())
+	makeValidatorCatchJsonTagFromRequestStruct()
 }
 
-func Struct(s interface{}) []ErrorResponse {
-	err := Validator.Struct(s)
-	if err != nil {
-		var errors []ErrorResponse
-		for _, err := range err.(validator.ValidationErrors) {
-			errors = append(errors, ErrorResponse{
-				Tag: err.Tag(),
-			})
+func makeValidatorCatchJsonTagFromRequestStruct() {
+	Validator.RegisterTagNameFunc(func(fld reflect.StructField) string {
+		name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
+
+		if name == "-" {
+			return ""
 		}
-		return errors
-	}
-	return nil
+
+		return name
+	})
 }
