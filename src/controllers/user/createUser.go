@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
@@ -19,10 +17,10 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	errValidator := validator.Struct(request)
+	errValidator := validator.CreateUser(request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": fmt.Sprintf("Invalid request: %v", errValidator),
+			"message": errValidator,
 		})
 		return nil
 	}
