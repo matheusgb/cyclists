@@ -9,7 +9,7 @@ func (user *User) DeleteUser(ctx *fiber.Ctx) error {
 	UserID := ctx.Params("id", "")
 	if UserID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "User ID is required",
 		})
 	}
 
