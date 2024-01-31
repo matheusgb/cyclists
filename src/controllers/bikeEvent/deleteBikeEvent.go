@@ -9,8 +9,9 @@ func (bikeEvent *BikeEvent) DeleteBikeEvent(ctx *fiber.Ctx) error {
 	bikeEventID := ctx.Params("id", "")
 	if bikeEventID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "BikeEvent ID is required",
 		})
+		return nil
 	}
 
 	domain := domains.InitID(bikeEventID)
