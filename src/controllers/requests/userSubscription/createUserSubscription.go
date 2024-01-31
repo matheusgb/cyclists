@@ -1,6 +1,6 @@
 package requests
 
 type CreateUserSubscription struct {
-	BikeEventID uint `json:"bike_event_id"`
-	UserID      uint `json:"user_id"`
+	BikeEventID uint `json:"bike_event_id" validate:"required"`
+	UserID      uint `json:"user_id" validate:"required"`
 }
