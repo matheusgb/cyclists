@@ -12,8 +12,10 @@ func main() {
 	// TODO: Add validations using database (unique email, etc)
 	// TODO: Add Logs
 	// TODO: Add JWT Login
+	// TODO: Add Rate Limit
 	// TODO: Change password using sendgrid
-	// TODO: Add Redis
+	// TODO: Add Redis for cache
+	// TODO: Add Kafka for webhooks (?)
 	// TODO: Add Tests
 	// TODO: Add Docker
 	// TODO: Add CI/CD
