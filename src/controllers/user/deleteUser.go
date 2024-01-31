@@ -11,6 +11,7 @@ func (user *User) DeleteUser(ctx *fiber.Ctx) error {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": "User ID is required",
 		})
+		return nil
 	}
 
 	domain := domains.InitID(UserID)

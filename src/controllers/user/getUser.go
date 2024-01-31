@@ -12,6 +12,7 @@ func (user *User) GetUser(ctx *fiber.Ctx) error {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": "User ID is required",
 		})
+		return nil
 	}
 
 	domain := domains.InitID(UserID)

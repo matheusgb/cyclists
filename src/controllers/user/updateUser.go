@@ -14,16 +14,17 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": "User ID is required",
 		})
+		return nil
 	}
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": err.Error(),
 		})
-		return err
+		return nil
 	}
 
-	errValidator := validator.UpdateUser(request)
+	errValidator := validator.User[requests.UpdateUser](request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": errValidator,

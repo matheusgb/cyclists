@@ -12,12 +12,12 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": err.Error(),
 		})
-		return err
+		return nil
 	}
 
-	errValidator := validator.CreateUser(request)
+	errValidator := validator.User[requests.CreateUser](request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": errValidator,

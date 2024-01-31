@@ -11,9 +11,9 @@ func (UserSubscription *UserSubscription) CreateUserSubscription(ctx *fiber.Ctx)
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": err.Error(),
 		})
-		return err
+		return nil
 	}
 
 	domain := domains.InitCreate(request.BikeEventID, request.UserID)
