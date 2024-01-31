@@ -8,7 +8,7 @@ type CreateBikeEvent struct {
 	StartDate             time.Time `json:"start_date" validate:"required"`
 	StartDateRegistration time.Time `json:"start_date_registration" validate:"required"`
 	EndDateRegistration   time.Time `json:"end_date_registration" validate:"required"`
-	Organizer             uint      `json:"organizer" validate:"required,min=1"`
+	Organizer             uint      `json:"organizer" validate:"required"`
 	ParticipantsLimit     *uint     `json:"participants_limit" validate:"omitempty,min=2,max=1000"`
 	AditionalInformation  *string   `json:"aditional_information" validate:"omitempty,min=3,max=255"`
 }
