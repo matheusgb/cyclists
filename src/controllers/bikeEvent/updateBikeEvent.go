@@ -4,23 +4,33 @@ import (
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/bikeEvent"
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
+	"github.com/matheusgb/cyclists/validator"
 )
 
 func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
-	var request requests.BikeEvent
+	var request requests.UpdateBikeEvent
 
 	bikeEventID := ctx.Params("id", "")
 	if bikeEventID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "BikeEvent ID is required",
 		})
+		return nil
 	}
 
 	if err := ctx.BodyParser(&request); err != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": err.Error(),
 		})
-		return err
+		return nil
+	}
+
+	errValidator := validator.BikeEvent[requests.UpdateBikeEvent](request)
+	if errValidator != nil {
+		ctx.Status(400).JSON(fiber.Map{
+			"message": errValidator,
+		})
+		return nil
 	}
 
 	domain := domains.InitUpdate(bikeEventID, request.Name, request.StartPlace, request.AditionalInformation, request.StartDate, request.StartDateRegistration, request.EndDateRegistration, request.ParticipantsLimit, request.Organizer)
