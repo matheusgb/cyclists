@@ -9,8 +9,9 @@ func (UserSubscription *UserSubscription) DeleteUserSubscription(ctx *fiber.Ctx)
 	userSubscriptionID := ctx.Params("id", "")
 	if userSubscriptionID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "UserSubscription ID is required",
 		})
+		return nil
 	}
 
 	domain := domains.InitID(userSubscriptionID)
