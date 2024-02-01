@@ -3,8 +3,8 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/bikeEvent"
+	"github.com/matheusgb/cyclists/src/controllers/validators"
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
-	"github.com/matheusgb/cyclists/validator"
 )
 
 func (bikeEvent *BikeEvent) CreateBikeEvent(ctx *fiber.Ctx) error {
@@ -17,7 +17,7 @@ func (bikeEvent *BikeEvent) CreateBikeEvent(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	errValidator := validator.BikeEvent[requests.CreateBikeEvent](request)
+	errValidator := validators.BikeEvent[requests.CreateBikeEvent](request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": errValidator,

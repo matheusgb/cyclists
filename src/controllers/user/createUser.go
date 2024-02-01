@@ -3,8 +3,8 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
+	"github.com/matheusgb/cyclists/src/controllers/validators"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
-	"github.com/matheusgb/cyclists/validator"
 )
 
 func (user *User) CreateUser(ctx *fiber.Ctx) error {
@@ -17,7 +17,7 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	errValidator := validator.User[requests.CreateUser](request)
+	errValidator := validators.User[requests.CreateUser](request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": errValidator,

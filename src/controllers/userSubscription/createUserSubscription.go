@@ -3,8 +3,8 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/userSubscription"
+	"github.com/matheusgb/cyclists/src/controllers/validators"
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
-	"github.com/matheusgb/cyclists/validator"
 )
 
 func (UserSubscription *UserSubscription) CreateUserSubscription(ctx *fiber.Ctx) error {
@@ -17,7 +17,7 @@ func (UserSubscription *UserSubscription) CreateUserSubscription(ctx *fiber.Ctx)
 		return nil
 	}
 
-	errorsValidation := validator.UserSubscription(request)
+	errorsValidation := validators.UserSubscription(request)
 	if errorsValidation != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"errors": errorsValidation,
