@@ -1,4 +1,4 @@
-package main
+package layers
 
 import (
 	controllers "github.com/matheusgb/cyclists/src/controllers/bikeEvent"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitBikeEventLayers(database *gorm.DB) controllers.IBikeEvent {
+func InitBikeEvent(database *gorm.DB) controllers.IBikeEvent {
 	repository := repositories.Init(database)
 	service := services.Init(repository)
 	controller := controllers.Init(service)

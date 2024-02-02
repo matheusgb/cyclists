@@ -6,11 +6,12 @@ import (
 	gorm "github.com/matheusgb/cyclists/database"
 	routes "github.com/matheusgb/cyclists/src/controllers"
 	"github.com/matheusgb/cyclists/src/controllers/validators"
+	"github.com/matheusgb/cyclists/src/layers"
 )
 
 func main() {
 	// TODO: Add validations using database (unique email, etc)
-	// usuario unico email, se o usuario ja esta inscrito no evento
+	// se o usuario ja esta inscrito no evento
 	// se ja existe um evento com o mesmo nome no organizador
 	// se o evento ja passou
 	// se o evento ja esta cheio
@@ -35,9 +36,9 @@ func main() {
 
 	validators.Init()
 
-	userControllers := InitUserLayers(databaseClient)
-	bikeEventControllers := InitBikeEventLayers(databaseClient)
-	userSubscriptionControllers := InitUserSubscriptionLayers(databaseClient)
+	userControllers := layers.InitUser(databaseClient)
+	bikeEventControllers := layers.InitBikeEvent(databaseClient)
+	userSubscriptionControllers := layers.InitUserSubscription(databaseClient)
 
 	app := fiber.New()
 	v1 := app.Group("/api/v1")

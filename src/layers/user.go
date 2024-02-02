@@ -1,4 +1,4 @@
-package main
+package layers
 
 import (
 	controllers "github.com/matheusgb/cyclists/src/controllers/user"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitUserLayers(database *gorm.DB) controllers.IUser {
+func InitUser(database *gorm.DB) controllers.IUser {
 	repository := repositories.Init(database)
 	service := services.Init(repository)
 	controller := controllers.Init(service)
