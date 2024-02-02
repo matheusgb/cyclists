@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/matheusgb/cyclists/config"
+	"github.com/matheusgb/cyclists/src/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

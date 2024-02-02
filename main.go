@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/matheusgb/cyclists/config"
-	gorm "github.com/matheusgb/cyclists/database"
+	"github.com/matheusgb/cyclists/src/config"
 	routes "github.com/matheusgb/cyclists/src/controllers"
 	"github.com/matheusgb/cyclists/src/controllers/validators"
+	gorm "github.com/matheusgb/cyclists/src/database"
 	"github.com/matheusgb/cyclists/src/layers"
 )
 

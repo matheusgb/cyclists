@@ -3,7 +3,7 @@ package gorm
 import (
 	"log"
 
-	"github.com/matheusgb/cyclists/config"
+	"github.com/matheusgb/cyclists/src/config"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
 

@@ -1,7 +1,7 @@
 package gorm
 
 import (
-	"github.com/matheusgb/cyclists/config"
+	"github.com/matheusgb/cyclists/src/config"
 	"gorm.io/gorm"
 )
 

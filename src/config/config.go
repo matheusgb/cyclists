@@ -25,7 +25,7 @@ type Api struct {
 
 func Init() Config {
 	var configJson Config
-	configFile, err := os.Open("./config/config.json")
+	configFile, err := os.Open("./src/config/config.json")
 	if err != nil {
 		log.Fatal("Config file not found: ", err)
 	}
