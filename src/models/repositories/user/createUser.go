@@ -12,7 +12,7 @@ func (user *User) CreateUser(domain domains.User) (entities.User, error) {
 
 	err := user.database.Where("email = ?", domain.Email).First(&entity).Error
 	if err == nil {
-		return entity, fmt.Errorf("User already exists")
+		return entity, fmt.Errorf("user with email %s already exists", domain.Email)
 	}
 
 	err = user.database.Create(&entities.User{

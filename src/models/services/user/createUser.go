@@ -10,7 +10,7 @@ import (
 func (user *User) CreateUser(domain domains.User) (entities.User, error) {
 	userFound, err := user.repository.FindUserByEmail(domain)
 	if err == nil {
-		return userFound, fmt.Errorf("User already exists")
+		return userFound, fmt.Errorf("user already exists")
 	}
 
 	return user.repository.CreateUser(domain)

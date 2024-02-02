@@ -6,10 +6,10 @@ import (
 )
 
 var mapUserRequestErrors = map[string]string{
-	"name":                  "Invalid name, it must have at least 3 characters and at most 255 characters",
-	"email":                 "Invalid email",
-	"password":              "Invalid password, it must have at least 6 characters and at most 255 characters",
-	"password_confirmation": "Invalid password confirmation, it must be equal to password",
+	"name":                  "invalid name, it must have at least 3 characters and at most 255 characters",
+	"email":                 "invalid email",
+	"password":              "invalid password, it must have at least 6 characters and at most 255 characters",
+	"password_confirmation": "invalid password confirmation, it must be equal to password",
 }
 
 func User[requestUser requests.CreateUser | requests.UpdateUser](request requestUser) map[string]string {

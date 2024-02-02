@@ -6,8 +6,8 @@ import (
 )
 
 var mapUserSubscriptionRequestErrors = map[string]string{
-	"bike_event_id": "Invalid bike event id, it must be a number greater than 0",
-	"user_id":       "Invalid user id, it must be a number greater than 0",
+	"bike_event_id": "invalid bike event id, it must be a number greater than 0",
+	"user_id":       "invalid user id, it must be a number greater than 0",
 }
 
 func UserSubscription(request requests.CreateUserSubscription) map[string]string {

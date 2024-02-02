@@ -15,7 +15,7 @@ func (user *User) UpdateUser(domain domains.User) (entities.User, error) {
 	}).Scan(&entity)
 
 	if result.RowsAffected == 0 {
-		return entity, fmt.Errorf("User with id %s not found", domain.ID)
+		return entity, fmt.Errorf("user with id %s not found", domain.ID)
 	}
 
 	if result.Error != nil {
