@@ -12,6 +12,8 @@ type IUser interface {
 	GetUser(user domains.User) (entities.User, error)
 	DeleteUser(user domains.User) (entities.User, error)
 	GetAllUsers() ([]entities.User, error)
+
+	FindUserByEmail(user domains.User) (entities.User, error)
 }
 
 type User struct {
