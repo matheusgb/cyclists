@@ -11,14 +11,11 @@ import (
 
 func main() {
 	// TODO: Add validations using database (unique email, etc)
-	// se o usuario ja esta inscrito no evento
-	// se ja existe um evento com o mesmo nome no organizador
 	// se o evento ja passou
 	// se o evento ja esta cheio
-	// talvez pra fazer essas validações de data eu tenha que iniciar o
-	// postgres em um docker localmente
+	// TODO: Add JWT Login and create context for user
+	// se ja existe um evento com o mesmo nome no organizador
 	// TODO: Add Logs
-	// TODO: Add JWT Login
 	// TODO: Add Rate Limit
 	// TODO: Change password using sendgrid
 	// TODO: Add Redis for cache
