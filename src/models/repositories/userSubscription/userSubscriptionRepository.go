@@ -10,7 +10,8 @@ type IUserSubscription interface {
 	CreateUserSubscription(userSubscription domains.UserSubscription) (entities.UserSubscription, error)
 	DeleteUserSubscription(userSubscription domains.UserSubscription) (entities.UserSubscription, error)
 
-	FindByUserSubscription(userSubscription domains.UserSubscription) (entities.UserSubscription, error)
+	FindByUserSubscription(userSubscription domains.UserSubscription) error
+	CheckEventIsFull(userSubscription domains.UserSubscription) error
 }
 
 type UserSubscription struct {
