@@ -10,20 +10,20 @@ import (
 )
 
 func main() {
-	// TODO: Add validations using database (unique email, etc)
-	// se o evento ja passou
-	// se o evento ja esta cheio
 	// TODO: Add JWT Login and create context for user
-	// se ja existe um evento com o mesmo nome no organizador
 	// TODO: Add Logs
-	// TODO: Add Rate Limit
-	// TODO: Change password using sendgrid
 	// TODO: Add Redis for cache
-	// TODO: Add Kafka for webhooks (?)
 	// TODO: Add Tests
+	// TODO: Add Swagger
 	// TODO: Add Docker
 	// TODO: Add CI/CD
-	// TODO: Add Swagger
+
+	//! v2
+	// TODO: Change password using sendgrid
+	// TODO: Add date validation for bike event (if a event is in the past, it should not be possible to subscribe)
+	// TODO: Add Rate Limit
+	// TODO: Add Kafka for webhooks
+
 	config := config.Init()
 
 	database := gorm.Init()
