@@ -8,5 +8,8 @@
   },
   "api": {
     "port": ":3000"
+  },
+  "jwt": {
+    "secret": "secret_key"
   }
 }
