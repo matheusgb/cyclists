@@ -25,7 +25,7 @@ func (user *User) CreateUser(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	domain := domains.InitCreate(request.Email, request.Password, request.PasswordConfirmation, request.Name)
+	domain := domains.InitCreate(request.Email, request.Password, request.Name)
 
 	_, err := user.service.CreateUser(*domain)
 	if err != nil {
