@@ -15,6 +15,8 @@ type IUser interface {
 	GetUser(ctx *fiber.Ctx) error
 	DeleteUser(ctx *fiber.Ctx) error
 	GetAllUsers(ctx *fiber.Ctx) error
+
+	LoginUser(ctx *fiber.Ctx) error
 }
 
 func Init(service services.IUser) IUser {
