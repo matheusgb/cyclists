@@ -8,7 +8,7 @@ import (
 var mapUserRequestErrors = map[string]string{
 	"name":                  "invalid name, it must have at least 3 characters and at most 255 characters",
 	"email":                 "invalid email",
-	"password":              "invalid password, it must have at least 6 characters and at most 255 characters",
+	"password":              "invalid password, it must have at least 6 characters",
 	"password_confirmation": "invalid password confirmation, it must be equal to password",
 }
 
