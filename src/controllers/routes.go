@@ -14,6 +14,7 @@ func UserRoutes(app fiber.Router, controller Ucontrollers.IUser) {
 	User.Get("/:id", controller.GetUser)
 	User.Put("/:id", controller.UpdateUser)
 	User.Delete("/:id", controller.DeleteUser)
+	User.Post("/login", controller.LoginUser)
 }
 
 func BikeEventRoutes(app fiber.Router, controller Bcontrollers.IBikeEvent) {
