@@ -1,5 +1,10 @@
 package domains
 
+import (
+	"crypto/md5"
+	"encoding/hex"
+)
+
 type User struct {
 	ID                   string
 	Name                 string
@@ -8,12 +13,16 @@ type User struct {
 	PasswordConfirmation string
 }
 
-func InitCreate(email, password, passwordConfirmation, name string) *User {
+func InitCreate(email, password, name string) *User {
+	hash := md5.New()
+	defer hash.Reset()
+	hash.Write([]byte(password))
+	password = hex.EncodeToString(hash.Sum(nil))
+
 	return &User{
-		Email:                email,
-		Password:             password,
-		PasswordConfirmation: passwordConfirmation,
-		Name:                 name,
+		Email:    email,
+		Password: password,
+		Name:     name,
 	}
 }
 
@@ -27,5 +36,17 @@ func InitUpdate(name, id string) *User {
 func InitID(id string) *User {
 	return &User{
 		ID: id,
+	}
+}
+
+func InitLogin(email, password string) *User {
+	hash := md5.New()
+	defer hash.Reset()
+	hash.Write([]byte(password))
+	password = hex.EncodeToString(hash.Sum(nil))
+
+	return &User{
+		Email:    email,
+		Password: password,
 	}
 }
