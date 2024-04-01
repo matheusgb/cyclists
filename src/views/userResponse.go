@@ -19,6 +19,16 @@ type UserResponseWithBikeEvents struct {
 	BikeEvents []BikeEventResponse `json:"bike_events"`
 }
 
+type LoginUserResponse struct {
+	Token string `json:"token"`
+}
+
+func ConvertStringTokenToResponse(token string) *LoginUserResponse {
+	return &LoginUserResponse{
+		Token: token,
+	}
+}
+
 func ConvertUserEntityToResponseBikeEvent(userEntity *entities.User) *UserResponse {
 	return &UserResponse{
 		ID:    userEntity.ID,
