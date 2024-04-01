@@ -14,6 +14,7 @@ type IUser interface {
 	GetAllUsers() ([]entities.User, error)
 
 	FindUserByEmail(user domains.User) (entities.User, error)
+	FindUserByEmailAndPassword(user domains.User) (entities.User, error)
 }
 
 type User struct {
