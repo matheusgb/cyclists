@@ -10,7 +10,7 @@ func (bikeEvent *BikeEvent) GetBikeEvent(ctx *fiber.Ctx) error {
 	bikeEventID := ctx.Params("id", "")
 	if bikeEventID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "BikeEvent ID is required",
+			"message": "bike event ID is required",
 		})
 		return nil
 	}
