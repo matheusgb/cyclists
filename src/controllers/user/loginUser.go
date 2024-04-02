@@ -28,7 +28,7 @@ func (user *User) LoginUser(ctx *fiber.Ctx) error {
 
 	domain := domains.InitLogin(request.Email, request.Password)
 
-	token, err := user.service.LoginUser(*domain)
+	token, entity, err := user.service.LoginUser(*domain)
 	if err != nil {
 		ctx.Status(401).JSON(fiber.Map{
 			"message": err.Error(),
@@ -36,7 +36,7 @@ func (user *User) LoginUser(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	view := views.ConvertStringTokenToResponse(token)
+	view := views.ConvertStringTokenToResponse(token, entity)
 	ctx.Status(200).JSON(view)
 	return nil
 }
