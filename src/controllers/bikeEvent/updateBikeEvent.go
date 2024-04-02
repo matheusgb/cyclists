@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/bikeEvent"
 	"github.com/matheusgb/cyclists/src/controllers/validators"
@@ -13,17 +15,19 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
 	bikeEventID := ctx.Params("id", "")
 	if bikeEventID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "BikeEvent ID is required",
+			"message": "bike event ID is required",
 		})
 		return nil
 	}
 
-	if err := ctx.BodyParser(&request); err != nil {
+	userRole := ctx.Locals("user_role").(string)
+	uintOrganizerId, err := strconv.ParseUint(ctx.Locals("user_id").(string), 10, 64)
+	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": err.Error(),
+			"message": "invalid context user ID",
 		})
-		return nil
 	}
+	organizerId := uint(uintOrganizerId)
 
 	errValidator := validators.BikeEvent[requests.UpdateBikeEvent](request)
 	if errValidator != nil {
@@ -35,7 +39,7 @@ func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
 
 	domain := domains.InitUpdate(bikeEventID, request.Name, request.StartPlace, request.AditionalInformation, request.StartDate, request.StartDateRegistration, request.EndDateRegistration, request.ParticipantsLimit, request.Organizer)
 
-	_, err := bikeEvent.service.UpdateBikeEvent(*domain)
+	_, err = bikeEvent.service.UpdateBikeEvent(*domain, userRole, organizerId)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
