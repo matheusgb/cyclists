@@ -35,13 +35,13 @@ func CreateJWTToken(user entities.User) (string, error) {
 
 func VerifyJWTTokenMiddleware(ctx *fiber.Ctx) error {
 	secret := config.InitializedConfigs.Jwt.Secret
-	token := ctx.Get("Authorization")[7:]
-
+	token := ctx.Get("Authorization")
 	if token == "" {
 		return ctx.Status(401).JSON(fiber.Map{
 			"error": "no token provided",
 		})
 	}
+	token = token[len("Bearer "):]
 
 	claims := jwt.MapClaims{}
 
