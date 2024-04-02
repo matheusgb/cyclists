@@ -5,6 +5,9 @@ import (
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
 
-func (bikeEvent *BikeEvent) DeleteBikeEvent(domain domains.BikeEvent) (entities.BikeEvent, error) {
+func (bikeEvent *BikeEvent) DeleteBikeEvent(domain domains.BikeEvent, role string) (entities.BikeEvent, error) {
+	if role == "admin" {
+		return bikeEvent.repository.DeleteBikeEventAdmin(domain)
+	}
 	return bikeEvent.repository.DeleteBikeEvent(domain)
 }
