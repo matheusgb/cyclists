@@ -9,10 +9,19 @@ import (
 
 func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 	var request requests.UpdateUser
+	contextUserID := ctx.Locals("user_id").(string)
+	contextUserRole := ctx.Locals("user_role").(string)
+
 	UserID := ctx.Params("id", "")
+	if UserID != contextUserID && contextUserRole != "admin" {
+		ctx.Status(403).JSON(fiber.Map{
+			"message": "you don't have permission to update this user",
+		})
+		return nil
+	}
 	if UserID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "User ID is required",
+			"message": "user ID is required",
 		})
 		return nil
 	}
