@@ -21,11 +21,13 @@ type UserResponseWithBikeEvents struct {
 
 type LoginUserResponse struct {
 	Token string `json:"token"`
+	ID    uint   `json:"user_id"`
 }
 
-func ConvertStringTokenToResponse(token string) *LoginUserResponse {
+func ConvertStringTokenToResponse(token string, user entities.User) *LoginUserResponse {
 	return &LoginUserResponse{
 		Token: token,
+		ID:    user.ID,
 	}
 }
 
