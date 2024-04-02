@@ -47,20 +47,3 @@ func encryptPassword(password string) string {
 	hash.Write([]byte(password))
 	return hex.EncodeToString(hash.Sum(nil))
 }
-
-// func UserPermissionMiddleware(ctx *fiber.Ctx) error {
-// 	contextUserID := ctx.Locals("user_id").(string)
-// 	contextUserRole := ctx.Locals("user_role").(string)
-
-// 	UserID := ctx.Params("id", "")
-// 	if UserID != contextUserID && contextUserRole != "admin" {
-// 		UserID = contextUserID
-// 	}
-// 	if UserID == "" {
-// 		ctx.Status(400).JSON(fiber.Map{
-// 			"message": "User ID is required",
-// 		})
-// 		return nil
-// 	}
-// 	return ctx.Next()
-// }
