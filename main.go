@@ -10,25 +10,29 @@ import (
 )
 
 func main() {
-	// TODO: Add JWT Login and create context for user
-	// TODO: Add Logs
-	// TODO: Add Redis for cache
+	// TODO: Adjust permissions for users and admins
+	// TODO: Add date validation for bike event (if a event is in the past, it should not be possible to subscribe)
+	// TODO: Change password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
 	// TODO: Add Docker
 	// TODO: Add CI/CD
 
 	//! v2
-	// TODO: Change password using sendgrid
-	// TODO: Add date validation for bike event (if a event is in the past, it should not be possible to subscribe)
+	// TODO: Add Redis for cache
 	// TODO: Add Rate Limit
 	// TODO: Add Kafka for webhooks
+	// TODO: Add Logs and save in a file
+
+	//? v3
+	// TODO: Add Prometheus + Grafana for monitoring
 
 	config := config.Init()
+	config.MountConfigs()
 
 	database := gorm.Init()
-	database.Connect(config)
-	database.RunMigrations(config)
+	database.Connect(*config)
+	database.RunMigrations(*config)
 	databaseClient := database.GetClient()
 
 	validators.Init()
