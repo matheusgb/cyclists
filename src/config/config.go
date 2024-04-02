@@ -37,7 +37,7 @@ var InitializedConfigs *Config
 func (config *Config) MountConfigs() {
 	configFile, err := os.Open("./src/config/config.json")
 	if err != nil {
-		log.Fatal("Config file not found: ", err)
+		log.Fatal("config file not found: ", err)
 	}
 
 	defer configFile.Close()
@@ -45,7 +45,7 @@ func (config *Config) MountConfigs() {
 	jsonDecoder := json.NewDecoder(configFile)
 	err = jsonDecoder.Decode(&config)
 	if err != nil {
-		log.Fatal("Error parsing config file: ", err)
+		log.Fatal("error parsing config file: ", err)
 	}
 
 	InitializedConfigs = config
