@@ -9,7 +9,7 @@ func (UserSubscription *UserSubscription) DeleteUserSubscription(ctx *fiber.Ctx)
 	userSubscriptionID := ctx.Params("id", "")
 	if userSubscriptionID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "UserSubscription ID is required",
+			"message": "userSubscription ID is required",
 		})
 		return nil
 	}
