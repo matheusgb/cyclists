@@ -10,6 +10,22 @@ import (
 func (bikeEvent *BikeEvent) DeleteBikeEvent(domain domains.BikeEvent) (entities.BikeEvent, error) {
 	var entity entities.BikeEvent
 
+	result := bikeEvent.database.Where("id = ? AND organizer = ?", domain.ID, domain.Organizer).Delete(&entity)
+
+	if result.RowsAffected == 0 {
+		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
+	}
+
+	if result.Error != nil {
+		return entity, result.Error
+	}
+
+	return entity, nil
+}
+
+func (bikeEvent *BikeEvent) DeleteBikeEventAdmin(domain domains.BikeEvent) (entities.BikeEvent, error) {
+	var entity entities.BikeEvent
+
 	result := bikeEvent.database.Where("id = ?", domain.ID).Delete(&entity)
 
 	if result.RowsAffected == 0 {
