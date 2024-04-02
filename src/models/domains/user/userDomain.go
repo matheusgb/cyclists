@@ -14,14 +14,9 @@ type User struct {
 }
 
 func InitCreate(email, password, name string) *User {
-	hash := md5.New()
-	defer hash.Reset()
-	hash.Write([]byte(password))
-	password = hex.EncodeToString(hash.Sum(nil))
-
 	return &User{
 		Email:    email,
-		Password: password,
+		Password: encryptPassword(password),
 		Name:     name,
 	}
 }
@@ -40,13 +35,32 @@ func InitID(id string) *User {
 }
 
 func InitLogin(email, password string) *User {
+	return &User{
+		Email:    email,
+		Password: encryptPassword(password),
+	}
+}
+
+func encryptPassword(password string) string {
 	hash := md5.New()
 	defer hash.Reset()
 	hash.Write([]byte(password))
-	password = hex.EncodeToString(hash.Sum(nil))
-
-	return &User{
-		Email:    email,
-		Password: password,
-	}
+	return hex.EncodeToString(hash.Sum(nil))
 }
+
+// func UserPermissionMiddleware(ctx *fiber.Ctx) error {
+// 	contextUserID := ctx.Locals("user_id").(string)
+// 	contextUserRole := ctx.Locals("user_role").(string)
+
+// 	UserID := ctx.Params("id", "")
+// 	if UserID != contextUserID && contextUserRole != "admin" {
+// 		UserID = contextUserID
+// 	}
+// 	if UserID == "" {
+// 		ctx.Status(400).JSON(fiber.Map{
+// 			"message": "User ID is required",
+// 		})
+// 		return nil
+// 	}
+// 	return ctx.Next()
+// }
