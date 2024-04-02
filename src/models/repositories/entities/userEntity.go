@@ -10,4 +10,5 @@ type User struct {
 	Email      string      `gorm:"not null"`
 	Password   string      `gorm:"not null"`
 	BikeEvents []BikeEvent `gorm:"many2many:user_subscriptions;"`
+	Role       string      `gorm:"default: 'user'"` // user or admin
 }
