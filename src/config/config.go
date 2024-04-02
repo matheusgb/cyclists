@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Database Database
 	Api      Api
+	Jwt      Jwt
 }
 
 type Database struct {
@@ -23,8 +24,17 @@ type Api struct {
 	Port string
 }
 
-func Init() Config {
-	var configJson Config
+type Jwt struct {
+	Secret string
+}
+
+func Init() *Config {
+	return &Config{}
+}
+
+var InitializedConfigs *Config
+
+func (config *Config) MountConfigs() {
 	configFile, err := os.Open("./src/config/config.json")
 	if err != nil {
 		log.Fatal("Config file not found: ", err)
@@ -33,10 +43,10 @@ func Init() Config {
 	defer configFile.Close()
 
 	jsonDecoder := json.NewDecoder(configFile)
-	err = jsonDecoder.Decode(&configJson)
+	err = jsonDecoder.Decode(&config)
 	if err != nil {
 		log.Fatal("Error parsing config file: ", err)
 	}
 
-	return configJson
+	InitializedConfigs = config
 }
