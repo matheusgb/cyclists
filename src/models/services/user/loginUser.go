@@ -4,13 +4,19 @@ import (
 	"fmt"
 
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
+	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
 
-func (user *User) LoginUser(domain domains.User) (string, error) {
-	_, err := user.repository.FindUserByEmailAndPassword(domain)
+func (user *User) LoginUser(domain domains.User) (string, entities.User, error) {
+	findedUser, err := user.repository.FindUserByEmailAndPassword(domain)
 	if err != nil {
-		return "", fmt.Errorf("user not found")
+		return "", findedUser, fmt.Errorf("user not found, access denied")
 	}
 
-	return "token", nil
+	token, err := domains.CreateJWTToken(findedUser)
+	if err != nil {
+		return "", findedUser, fmt.Errorf("error to generate access token")
+	}
+
+	return token, findedUser, nil
 }
