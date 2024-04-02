@@ -6,10 +6,19 @@ import (
 )
 
 func (user *User) DeleteUser(ctx *fiber.Ctx) error {
+	contextUserID := ctx.Locals("user_id").(string)
+	contextUserRole := ctx.Locals("user_role").(string)
+
 	UserID := ctx.Params("id", "")
+	if UserID != contextUserID && contextUserRole != "admin" {
+		ctx.Status(403).JSON(fiber.Map{
+			"message": "you don't have permission to delete this user",
+		})
+		return nil
+	}
 	if UserID == "" {
 		ctx.Status(400).JSON(fiber.Map{
-			"message": "User ID is required",
+			"message": "user ID is required",
 		})
 		return nil
 	}
