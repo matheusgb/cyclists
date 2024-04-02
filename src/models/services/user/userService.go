@@ -13,7 +13,7 @@ type IUser interface {
 	DeleteUser(user domains.User) (entities.User, error)
 	GetAllUsers() ([]entities.User, error)
 
-	LoginUser(user domains.User) (string, error)
+	LoginUser(user domains.User) (string, entities.User, error)
 }
 
 type User struct {
