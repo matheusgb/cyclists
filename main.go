@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	// TODO: Add pagination
 	// TODO: Change user password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
