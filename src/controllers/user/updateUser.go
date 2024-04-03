@@ -33,7 +33,7 @@ func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	errValidator := validators.User[requests.UpdateUser](request)
+	errValidator := validators.User(request)
 	if errValidator != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": errValidator,
