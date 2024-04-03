@@ -6,15 +6,9 @@ type UserSubscription struct {
 	UserID      uint
 }
 
-func InitCreate(bikeEventID, userID uint) *UserSubscription {
+func Init(bikeEventID, userID uint) *UserSubscription {
 	return &UserSubscription{
 		BikeEventID: bikeEventID,
 		UserID:      userID,
-	}
-}
-
-func InitID(id string) *UserSubscription {
-	return &UserSubscription{
-		ID: id,
 	}
 }
