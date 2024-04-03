@@ -6,7 +6,17 @@ import (
 )
 
 func (userSubscription *UserSubscription) CreateUserSubscription(domain domains.UserSubscription) (entities.UserSubscription, error) {
-	err := userSubscription.repository.FindByUserSubscription(domain)
+	err := userSubscription.repository.CheckUserAndEventExists(domain)
+	if err != nil {
+		return entities.UserSubscription{}, err
+	}
+
+	err = userSubscription.repository.CheckEventIsValidDate(domain)
+	if err != nil {
+		return entities.UserSubscription{}, err
+	}
+
+	err = userSubscription.repository.CheckUserIsInEvent(domain)
 	if err != nil {
 		return entities.UserSubscription{}, err
 	}
