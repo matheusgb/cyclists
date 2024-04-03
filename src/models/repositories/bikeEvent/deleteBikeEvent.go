@@ -12,12 +12,16 @@ func (bikeEvent *BikeEvent) DeleteBikeEvent(domain domains.BikeEvent) (entities.
 
 	result := bikeEvent.database.Where("id = ? AND organizer = ?", domain.ID, domain.Organizer).Delete(&entity)
 
-	if result.RowsAffected == 0 {
-		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
-	}
-
 	if result.Error != nil {
 		return entity, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
+	} else {
+		resultSubs := bikeEvent.database.Where("bike_event_id = ?", domain.ID).Delete(&entities.UserSubscription{})
+		if resultSubs.Error != nil {
+			return entity, resultSubs.Error
+		}
 	}
 
 	return entity, nil
@@ -28,12 +32,16 @@ func (bikeEvent *BikeEvent) DeleteBikeEventAdmin(domain domains.BikeEvent) (enti
 
 	result := bikeEvent.database.Where("id = ?", domain.ID).Delete(&entity)
 
-	if result.RowsAffected == 0 {
-		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
-	}
-
 	if result.Error != nil {
 		return entity, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return entity, fmt.Errorf("bike event with id %s not found", domain.ID)
+	} else {
+		resultSubs := bikeEvent.database.Where("bike_event_id = ?", domain.ID).Delete(&entities.UserSubscription{})
+		if resultSubs.Error != nil {
+			return entity, resultSubs.Error
+		}
 	}
 
 	return entity, nil
