@@ -13,10 +13,10 @@ func main() {
 	// TODO: Change user password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
-	// TODO: Add Docker
-	// TODO: Add CI/CD
 
 	//! v2
+	// TODO: Add Docker
+	// TODO: Add CI/CD
 	// TODO: Add Redis for cache
 	// TODO: Add Rate Limit
 	// TODO: Add Kafka for webhooks
