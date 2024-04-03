@@ -37,5 +37,5 @@ func UserSubscriptionRoutes(app fiber.Router, controller UScontrollers.IUserSubs
 	userSubscription := app.Group("/user-subscription")
 	userSubscription.Use(domains.VerifyJWTTokenMiddleware)
 	userSubscription.Post("/", controller.CreateUserSubscription)
-	userSubscription.Delete("/:id", controller.DeleteUserSubscription)
+	userSubscription.Delete("/", controller.DeleteUserSubscription)
 }
