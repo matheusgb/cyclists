@@ -10,9 +10,8 @@ import (
 )
 
 func main() {
-	// TODO: Adjust permissions for users and admins
-	// TODO: Add date validation for bike event (if a event is in the past, it should not be possible to subscribe)
-	// TODO: Change password using sendgrid
+	// TODO: Adjust permissions for users and admins in users subscriptions and bike events
+	// TODO: Change user password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
 	// TODO: Add Docker
