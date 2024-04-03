@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-	// TODO: Adjust permissions for users and admins in users subscriptions and bike events
 	// TODO: Change user password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
