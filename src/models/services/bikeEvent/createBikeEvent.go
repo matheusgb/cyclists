@@ -13,7 +13,7 @@ func (bikeEvent *BikeEvent) CreateBikeEvent(domain domains.BikeEvent) (entities.
 		return entities.BikeEvent{}, fmt.Errorf("the event start date should be after the end date")
 	}
 
-	if domain.StartDate.Before(time.Now()) || domain.EndDateRegistration.Before(time.Now()) || domain.StartDateRegistration.Before(time.Now()) {
+	if domain.StartDate.Before(time.Now()) || domain.EndDateRegistration.Before(time.Now()) {
 		return entities.BikeEvent{}, fmt.Errorf("the date registration should be in the future")
 	}
 
