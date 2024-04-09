@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/matheusgb/cyclists/src/models/repositories/entities"
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 )
 
-func (user *User) GetAllUsers() ([]entities.User, error) {
-	return user.repository.GetAllUsers()
+func (user *User) GetAllUsers(pagination *domainsP.Pagination) (*domainsP.Pagination, error) {
+	return user.repository.GetAllUsers(pagination)
 }
