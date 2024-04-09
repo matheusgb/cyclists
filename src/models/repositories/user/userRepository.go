@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 	"gorm.io/gorm"
@@ -11,7 +12,7 @@ type IUser interface {
 	UpdateUser(user domains.User) (entities.User, error)
 	GetUser(user domains.User) (entities.User, error)
 	DeleteUser(user domains.User) (entities.User, error)
-	GetAllUsers() ([]entities.User, error)
+	GetAllUsers(pagination *domainsP.Pagination) (*domainsP.Pagination, error)
 
 	FindUserByEmail(user domains.User) (entities.User, error)
 	FindUserByEmailAndPassword(user domains.User) (entities.User, error)
