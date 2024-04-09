@@ -2,6 +2,7 @@ package repositories
 
 import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 	"gorm.io/gorm"
 )
@@ -13,7 +14,7 @@ type IBikeEvent interface {
 	UpdateBikeEventAdmin(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
 	DeleteBikeEventAdmin(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
 	GetBikeEvent(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
-	GetAllBikeEvents() ([]entities.BikeEvent, error)
+	GetAllBikeEvents(pagination *domainsP.Pagination) (*domainsP.Pagination, error)
 }
 
 type BikeEvent struct {
