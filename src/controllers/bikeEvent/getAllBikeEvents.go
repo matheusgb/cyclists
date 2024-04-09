@@ -2,11 +2,22 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	"github.com/matheusgb/cyclists/src/views"
 )
 
 func (bikeEvent *BikeEvent) GetAllBikeEvents(ctx *fiber.Ctx) error {
-	entities, err := bikeEvent.service.GetAllBikeEvents()
+	limit := ctx.QueryInt("limit", 0)
+	page := ctx.QueryInt("page", 0)
+	sort := ctx.Query("sort", "")
+
+	pagination := &domainsP.Pagination{
+		Limit: limit,
+		Page:  page,
+		Sort:  sort,
+	}
+
+	response, err := bikeEvent.service.GetAllBikeEvents(pagination)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
@@ -14,7 +25,7 @@ func (bikeEvent *BikeEvent) GetAllBikeEvents(ctx *fiber.Ctx) error {
 		return nil
 	}
 
-	view := views.ConvertAllBikeEventsEntityToResponse(entities)
+	view := views.ConvertAllBikeEventsEntityToResponse(response)
 	ctx.Status(200).JSON(view)
 	return nil
 }
