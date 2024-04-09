@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/matheusgb/cyclists/src/models/repositories/entities"
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 )
 
-func (bikeEvent *BikeEvent) GetAllBikeEvents() ([]entities.BikeEvent, error) {
-	return bikeEvent.repository.GetAllBikeEvents()
+func (bikeEvent *BikeEvent) GetAllBikeEvents(pagination *domainsP.Pagination) (*domainsP.Pagination, error) {
+	return bikeEvent.repository.GetAllBikeEvents(pagination)
 }
