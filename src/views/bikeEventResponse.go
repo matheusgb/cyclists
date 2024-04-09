@@ -3,6 +3,7 @@ package views
 import (
 	"time"
 
+	domainsP "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 )
 
@@ -60,10 +61,13 @@ func ConvertAllBikeEventsEntityToResponseUser(bikeEventEntity []entities.BikeEve
 	return bikeEventsResponse
 }
 
-func ConvertAllBikeEventsEntityToResponse(bikeEventEntity []entities.BikeEvent) []BikeEventResponseWithParticipantsAndOrganizer {
+func ConvertAllBikeEventsEntityToResponse(response *domainsP.Pagination) *domainsP.Pagination {
 	var bikeEventsResponse []BikeEventResponseWithParticipantsAndOrganizer
-	for _, bikeEventEntity := range bikeEventEntity {
-		bikeEventsResponse = append(bikeEventsResponse, *ConvertBikeEventEntityToResponse(&bikeEventEntity))
+	for _, response := range response.Rows.([]entities.BikeEvent) {
+		bikeEventsResponse = append(bikeEventsResponse, *ConvertBikeEventEntityToResponse(&response))
 	}
-	return bikeEventsResponse
+
+	response.Rows = bikeEventsResponse
+
+	return response
 }
