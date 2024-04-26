@@ -12,7 +12,7 @@ type IBikeEvent interface {
 	UpdateBikeEvent(bikeEvent domains.BikeEvent, role string, organizer uint) (entities.BikeEvent, error)
 	DeleteBikeEvent(bikeEvent domains.BikeEvent, role string) (entities.BikeEvent, error)
 	GetBikeEvent(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
-	GetAllBikeEvents(pagination *domainsP.Pagination) (*domainsP.Pagination, error)
+	GetAllBikeEvents(pagination *domainsP.Pagination, name string) (*domainsP.Pagination, error)
 }
 
 type BikeEvent struct {
