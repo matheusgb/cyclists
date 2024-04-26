@@ -12,7 +12,7 @@ type IUser interface {
 	UpdateUser(user domains.User) (entities.User, error)
 	GetUser(user domains.User) (entities.User, error)
 	DeleteUser(user domains.User) (entities.User, error)
-	GetAllUsers(pagination *domainsP.Pagination) (*domainsP.Pagination, error)
+	GetAllUsers(pagination *domainsP.Pagination, email string) (*domainsP.Pagination, error)
 
 	FindUserByEmail(user domains.User) (entities.User, error)
 	FindUserByEmailAndPassword(user domains.User) (entities.User, error)

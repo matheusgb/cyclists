@@ -10,6 +10,7 @@ func (user *User) GetAllUsers(ctx *fiber.Ctx) error {
 	limit := ctx.QueryInt("limit", 0)
 	page := ctx.QueryInt("page", 0)
 	sort := ctx.Query("sort", "")
+	email := ctx.Query("email", "")
 
 	pagination := &domainsP.Pagination{
 		Limit: limit,
@@ -17,7 +18,7 @@ func (user *User) GetAllUsers(ctx *fiber.Ctx) error {
 		Sort:  sort,
 	}
 
-	response, err := user.service.GetAllUsers(pagination)
+	response, err := user.service.GetAllUsers(pagination, email)
 	if err != nil {
 		ctx.Status(400).JSON(fiber.Map{
 			"message": err.Error(),
