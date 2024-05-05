@@ -41,6 +41,19 @@ func InitLogin(email, password string) *User {
 	}
 }
 
+func InitSendPasswordResetEmail(email string) *User {
+	return &User{
+		Email: email,
+	}
+}
+
+func InitResetPassword(id, password string) *User {
+	return &User{
+		ID:       id,
+		Password: encryptPassword(password),
+	}
+}
+
 func encryptPassword(password string) string {
 	hash := md5.New()
 	defer hash.Reset()
