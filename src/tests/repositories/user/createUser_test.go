@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUserRepository(t *testing.T) {
+func TestCreateUserRepositorySuccess(t *testing.T) {
 	db, mock := tests.MockDatabase()
 
 	domain := domains.User{
@@ -36,4 +36,25 @@ func TestCreateUserRepository(t *testing.T) {
 	assert.Equal(t, domain.Name, user.Name)
 	assert.Equal(t, domain.Email, user.Email)
 	assert.Equal(t, domain.Password, user.Password)
+}
+
+func TestCreateUserRepositoryError(t *testing.T) {
+	db, mock := tests.MockDatabase()
+
+	domain := domains.User{
+		Name:     "Test",
+		Email:    "test@mail.com",
+		Password: "123456",
+	}
+
+	mock.ExpectBegin()
+	mock.ExpectQuery("INSERT").
+		WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.Name, domain.Email, domain.Password, sqlmock.AnyArg()).
+		WillReturnError(db.Error)
+	mock.ExpectRollback()
+
+	repository := repositories.Init(db)
+	_, err := repository.CreateUser(domain)
+
+	assert.Error(t, err)
 }
