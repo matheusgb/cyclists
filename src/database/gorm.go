@@ -8,7 +8,7 @@ import (
 type IDatabase interface {
 	Connect(config config.Config)
 	InitializeClient(config config.Config)
-	RunMigrations(config config.Config)
+	RunMigrations()
 	GetClient() *gorm.DB
 }
 

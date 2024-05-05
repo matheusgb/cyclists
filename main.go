@@ -29,7 +29,7 @@ func main() {
 
 	database := gorm.Init()
 	database.Connect(*config)
-	database.RunMigrations(*config)
+	database.RunMigrations()
 	databaseClient := database.GetClient()
 
 	validators.Init()
