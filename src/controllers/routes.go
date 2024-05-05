@@ -13,7 +13,7 @@ func UserRoutes(app fiber.Router, controller Ucontrollers.IUser) {
 	User.Use(domains.VerifyJWTTokenMiddleware)
 	User.Get("/", controller.GetAllUsers)
 	User.Get("/:id", controller.GetUser)
-	User.Put("/:id", controller.UpdateUser)
+	User.Patch("/:id", controller.UpdateUser)
 	User.Delete("/:id", controller.DeleteUser)
 
 	Login := app.Group("/login")
@@ -21,6 +21,12 @@ func UserRoutes(app fiber.Router, controller Ucontrollers.IUser) {
 
 	Register := app.Group("/register")
 	Register.Post("/", controller.CreateUser)
+
+	SendPasswordResetEmail := app.Group("/send-password-email")
+	SendPasswordResetEmail.Post("/", controller.SendPasswordResetEmail)
+	PasswordReset := app.Group("/reset-password")
+	PasswordReset.Use(domains.VerifyJWTTokenMiddleware)
+	PasswordReset.Patch("/", controller.ResetPassword)
 }
 
 func BikeEventRoutes(app fiber.Router, controller Bcontrollers.IBikeEvent) {
