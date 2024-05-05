@@ -10,9 +10,6 @@ import (
 )
 
 func main() {
-	// TODO: Add name filter to bike events
-	// TODO: Add email filter to users
-	// TODO: Change user password using sendgrid
 	// TODO: Add Tests
 	// TODO: Add Swagger
 
