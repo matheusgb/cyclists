@@ -10,6 +10,7 @@ type Config struct {
 	Database Database
 	Api      Api
 	Jwt      Jwt
+	SendGrid SendGrid
 }
 
 type Database struct {
@@ -26,6 +27,12 @@ type Api struct {
 
 type Jwt struct {
 	Secret string
+}
+
+type SendGrid struct {
+	ApiKey      string
+	FromEmail   string
+	URLFrontEnd string
 }
 
 func Init() *Config {
