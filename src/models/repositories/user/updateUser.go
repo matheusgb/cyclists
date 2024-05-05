@@ -11,7 +11,8 @@ func (user *User) UpdateUser(domain domains.User) (entities.User, error) {
 	var entity entities.User
 
 	result := user.database.Where("id = ?", domain.ID).Updates(&entities.User{
-		Name: domain.Name,
+		Name:     domain.Name,
+		Password: domain.Password,
 	}).Scan(&entity)
 
 	if result.RowsAffected == 0 {
