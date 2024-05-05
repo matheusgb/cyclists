@@ -12,7 +12,7 @@ var mapUserRequestErrors = map[string]string{
 	"password_confirmation": "invalid password confirmation, it must be equal to password",
 }
 
-func User[requestUser requests.CreateUser | requests.UpdateUser](request requestUser) map[string]string {
+func User[requestUser requests.CreateUser | requests.UpdateUser | requests.SendPasswordResetEmail | requests.ResetPassword](request requestUser) map[string]string {
 	err := Validator.Struct(request)
 	if err != nil {
 		errors := make(map[string]string)
