@@ -15,6 +15,8 @@ type IUser interface {
 	GetAllUsers(pagination *domainsP.Pagination, email string) (*domainsP.Pagination, error)
 
 	LoginUser(user domains.User) (string, entities.User, error)
+	SendPasswordResetEmail(user domains.User) error
+	ResetPassword(user domains.User) error
 }
 
 type User struct {

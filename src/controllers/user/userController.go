@@ -17,6 +17,8 @@ type IUser interface {
 	GetAllUsers(ctx *fiber.Ctx) error
 
 	LoginUser(ctx *fiber.Ctx) error
+	SendPasswordResetEmail(ctx *fiber.Ctx) error
+	ResetPassword(ctx *fiber.Ctx) error
 }
 
 func Init(service services.IUser) IUser {
