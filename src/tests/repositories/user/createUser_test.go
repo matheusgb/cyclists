@@ -4,20 +4,27 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/user"
 	"github.com/matheusgb/cyclists/src/tests"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUserRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-
-	domain := domains.User{
+func initCreateMockedDomain() *domains.User {
+	request := requests.CreateUser{
 		Name:     "Test",
 		Email:    "test@mail.com",
 		Password: "123456",
 	}
+
+	domain := domains.InitCreate(request.Email, request.Name, request.Password)
+	return domain
+}
+
+func TestCreateUserRepositorySuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initCreateMockedDomain()
 
 	mock.ExpectBegin()
 	mock.ExpectQuery("INSERT").
@@ -30,7 +37,7 @@ func TestCreateUserRepositorySuccess(t *testing.T) {
 		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password"}).AddRow(1, domain.Name, domain.Email, domain.Password))
 
 	repository := repositories.Init(db)
-	user, err := repository.CreateUser(domain)
+	user, err := repository.CreateUser(*domain)
 
 	assert.NoError(t, err)
 	assert.Equal(t, domain.Name, user.Name)
@@ -40,12 +47,7 @@ func TestCreateUserRepositorySuccess(t *testing.T) {
 
 func TestCreateUserRepositoryError(t *testing.T) {
 	db, mock := tests.MockDatabase()
-
-	domain := domains.User{
-		Name:     "Test",
-		Email:    "test@mail.com",
-		Password: "123456",
-	}
+	domain := initCreateMockedDomain()
 
 	mock.ExpectBegin()
 	mock.ExpectQuery("INSERT").
@@ -54,7 +56,7 @@ func TestCreateUserRepositoryError(t *testing.T) {
 	mock.ExpectRollback()
 
 	repository := repositories.Init(db)
-	_, err := repository.CreateUser(domain)
+	_, err := repository.CreateUser(*domain)
 
 	assert.Error(t, err)
 }
