@@ -44,7 +44,7 @@ func TestDeleteUserRepositoryError(t *testing.T) {
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
 		WithArgs(sqlmock.AnyArg(), domain.ID).
 		WillReturnError(db.Error)
-	mock.ExpectCommit()
+	mock.ExpectRollback()
 
 	repository := repositories.Init(db)
 	_, err := repository.DeleteUser(*domain)
