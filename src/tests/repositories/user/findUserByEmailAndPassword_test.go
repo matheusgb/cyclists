@@ -29,7 +29,6 @@ func TestFindUserByEmailAndPasswordRepositorySuccess(t *testing.T) {
 		WithArgs(domain.Email, domain.Password).
 		WillReturnRows(sqlmock.NewRows([]string{"email", "password"}).
 			AddRow(domain.Email, domain.Password))
-	mock.ExpectBegin()
 
 	repository := repositories.Init(db)
 	user, err := repository.FindUserByEmailAndPassword(*domain)
@@ -46,7 +45,6 @@ func TestFindUserByEmailAndPasswordRepositoryError(t *testing.T) {
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.Email, domain.Password).
 		WillReturnError(db.Error)
-	mock.ExpectRollback()
 
 	repository := repositories.Init(db)
 	_, err := repository.FindUserByEmailAndPassword(*domain)
