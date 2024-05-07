@@ -6,6 +6,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func MockDatabase() (*gorm.DB, sqlmock.Sqlmock) {
@@ -19,10 +20,14 @@ func MockDatabase() (*gorm.DB, sqlmock.Sqlmock) {
 		DriverName: "postgres",
 	})
 
-	db, err := gorm.Open(dialector, &gorm.Config{})
+	db, err := gorm.Open(dialector, &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		log.Fatalf("an error '%s' was not expected when opening a gorm database connection", err)
 	}
+
+	db.Logger.LogMode(logger.LogLevel(logger.Info))
 
 	return db, mock
 }
