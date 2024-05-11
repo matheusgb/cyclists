@@ -12,11 +12,7 @@ import (
 )
 
 func initDeleteMockedDomain() *domains.User {
-	request := map[string]string{
-		"ID": "1",
-	}
-
-	domain := domains.InitID(request["ID"])
+	domain := domains.InitID("1")
 	return domain
 }
 
