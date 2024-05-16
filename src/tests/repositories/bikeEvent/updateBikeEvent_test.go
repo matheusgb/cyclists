@@ -53,6 +53,29 @@ func TestUpdateUserRepositorySuccess(t *testing.T) {
 	assert.Equal(t, domain.Name, bikeEvent.Name)
 }
 
+func TestUpdateUserRepositoryAdminSuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initUpdateMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
+		WithArgs(domain.ID).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+			AddRow(1, domain.Name))
+
+	repository := repositories.Init(db)
+	bikeEvent, err := repository.UpdateBikeEventAdmin(*domain)
+
+	assert.NoError(t, err)
+	assert.Equal(t, uint(1), bikeEvent.ID)
+	assert.Equal(t, domain.Name, bikeEvent.Name)
+}
+
 func TestUpdateUserRepositoryError(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
@@ -65,6 +88,26 @@ func TestUpdateUserRepositoryError(t *testing.T) {
 
 	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
 		WithArgs(domain.ID, domain.Organizer).
+		WillReturnError(db.Error)
+
+	repository := repositories.Init(db)
+	_, err := repository.UpdateBikeEvent(*domain, 1)
+
+	assert.Error(t, err)
+}
+
+func TestUpdateUserRepositoryAdminError(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initUpdateMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID).
+		WillReturnError(db.Error)
+	mock.ExpectCommit()
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
+		WithArgs(domain.ID).
 		WillReturnError(db.Error)
 
 	repository := repositories.Init(db)
