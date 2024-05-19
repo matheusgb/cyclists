@@ -2,8 +2,6 @@ package entities
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type UserSubscription struct {
@@ -13,5 +11,4 @@ type UserSubscription struct {
 	UserID      uint      `gorm:"not null"`
 	User        User      `gorm:"foreignKey:UserID"`
 	CreatedAt   time.Time
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }
