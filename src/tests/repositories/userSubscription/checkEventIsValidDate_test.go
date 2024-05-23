@@ -16,7 +16,15 @@ func TestCheckEventIsValidDateRepositorySuccess(t *testing.T) {
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "start_date_registration", "end_date_registration"}).AddRow(1, time.Now().AddDate(0, 0, -1), time.Now().AddDate(0, 0, 1)))
+		WillReturnRows(
+			sqlmock.NewRows(
+				[]string{"id", "start_date_registration", "end_date_registration"},
+			).AddRow(
+				1,
+				time.Now().AddDate(0, 0, -1),
+				time.Now().AddDate(0, 0, 1),
+			),
+		)
 
 	repository := repositories.Init(db)
 	err := repository.CheckEventIsValidDate(*domain)
@@ -30,7 +38,15 @@ func TestCheckEventIsInvalidDateRepositorySuccess(t *testing.T) {
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "start_date_registration", "end_date_registration"}).AddRow(1, time.Now().AddDate(0, 0, -2), time.Now().AddDate(0, 0, -1)))
+		WillReturnRows(
+			sqlmock.NewRows(
+				[]string{"id", "start_date_registration", "end_date_registration"},
+			).AddRow(
+				1,
+				time.Now().AddDate(0, 0, -2),
+				time.Now().AddDate(0, 0, -1),
+			),
+		)
 
 	repository := repositories.Init(db)
 	err := repository.CheckEventIsValidDate(*domain)
