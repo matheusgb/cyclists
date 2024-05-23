@@ -28,13 +28,30 @@ func TestCreateUserRepositorySuccess(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectQuery("INSERT").
-		WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.Name, domain.Email, domain.Password, sqlmock.AnyArg()).
+		WithArgs(
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.Name,
+			domain.Email,
+			domain.Password,
+			sqlmock.AnyArg(),
+		).
 		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 	mock.ExpectCommit()
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(1).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password"}).AddRow(1, domain.Name, domain.Email, domain.Password))
+		WillReturnRows(
+			sqlmock.NewRows(
+				[]string{"id", "name", "email", "password"},
+			).AddRow(
+				1,
+				domain.Name,
+				domain.Email,
+				domain.Password,
+			),
+		)
 
 	repository := repositories.Init(db)
 	user, err := repository.CreateUser(*domain)
@@ -51,7 +68,15 @@ func TestCreateUserRepositoryError(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectQuery("INSERT").
-		WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.Name, domain.Email, domain.Password, sqlmock.AnyArg()).
+		WithArgs(
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.Name,
+			domain.Email,
+			domain.Password,
+			sqlmock.AnyArg(),
+		).
 		WillReturnError(db.Error)
 	mock.ExpectRollback()
 

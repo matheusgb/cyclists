@@ -36,7 +36,17 @@ func TestUpdateUserRepositorySuccess(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID, domain.Organizer).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			domain.ID,
+			domain.Organizer,
+		).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
@@ -59,7 +69,16 @@ func TestUpdateUserRepositoryAdminSuccess(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			domain.ID,
+		).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
@@ -82,7 +101,17 @@ func TestUpdateUserRepositoryError(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID, domain.Organizer).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			domain.ID,
+			domain.Organizer,
+		).
 		WillReturnError(db.Error)
 	mock.ExpectCommit()
 
@@ -102,7 +131,16 @@ func TestUpdateUserRepositoryAdminError(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.Name, sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), domain.StartPlace, domain.Organizer, domain.ID).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			domain.ID,
+		).
 		WillReturnError(db.Error)
 	mock.ExpectCommit()
 
