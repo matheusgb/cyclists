@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func initCreateMockedDomain() *domains.UserSubscription {
+func InitCreateMockedDomain() *domains.UserSubscription {
 	request := requests.UserSubscription{
 		BikeEventID: 1,
 		UserID:      1,
@@ -28,7 +28,7 @@ func initCreateMockedDomain() *domains.UserSubscription {
 
 func TestCheckEventRepositorySuccess(t *testing.T) {
 	db, mock := tests.MockDatabase()
-	domain := initCreateMockedDomain()
+	domain := InitCreateMockedDomain()
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.BikeEventID).
@@ -47,7 +47,7 @@ func TestCheckEventRepositorySuccess(t *testing.T) {
 
 func TestCheckEventIsFullRepositorySuccess(t *testing.T) {
 	db, mock := tests.MockDatabase()
-	domain := initCreateMockedDomain()
+	domain := InitCreateMockedDomain()
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.BikeEventID).
@@ -67,7 +67,7 @@ func TestCheckEventIsFullRepositorySuccess(t *testing.T) {
 
 func TestCheckEventIsFullRepositoryError(t *testing.T) {
 	db, mock := tests.MockDatabase()
-	domain := initCreateMockedDomain()
+	domain := InitCreateMockedDomain()
 
 	mock.ExpectQuery("SELECT").
 		WithArgs(domain.BikeEventID).
