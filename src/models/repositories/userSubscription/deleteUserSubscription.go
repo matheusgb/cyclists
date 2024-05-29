@@ -11,11 +11,11 @@ func (userSubscription *UserSubscription) DeleteUserSubscription(domain domains.
 	var entity entities.UserSubscription
 
 	result := userSubscription.database.Unscoped().Where("bike_event_id = ? AND user_id = ?", domain.BikeEventID, domain.UserID).Delete(&entity)
-	if result.Error != nil {
-		return entity, result.Error
-	}
 	if result.RowsAffected == 0 {
 		return entity, fmt.Errorf("user subscription with id %d and %d not found", domain.BikeEventID, domain.UserID)
+	}
+	if result.Error != nil {
+		return entity, result.Error
 	}
 
 	return entity, nil
