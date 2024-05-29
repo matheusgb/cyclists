@@ -26,12 +26,6 @@ func TestDeleteBikeEventRepositorySuccess(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.ID).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
-
 	repository := repositories.Init(db)
 	_, err := repository.DeleteBikeEvent(*domain)
 
@@ -48,16 +42,44 @@ func TestDeleteBikeEventRepositoryAdminSuccess(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
+	repository := repositories.Init(db)
+	_, err := repository.DeleteBikeEventAdmin(*domain)
+
+	assert.NoError(t, err)
+}
+
+func TestDeleteBikeEventNotFoundRepositorySuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initDeleteMockedDomain()
+
 	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.ID).
+		WithArgs(sqlmock.AnyArg(), "2").
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	repository := repositories.Init(db)
+	_, err := repository.DeleteBikeEvent(*domain)
+
+	assert.Error(t, err)
+	assert.Equal(t, "bike event with id 1 not found", err.Error())
+}
+
+func TestDeleteBikeEventNotFoundRepositoryAdminSuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initDeleteMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(sqlmock.AnyArg(), "2").
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	repository := repositories.Init(db)
 	_, err := repository.DeleteBikeEventAdmin(*domain)
 
-	assert.NoError(t, err)
+	assert.Error(t, err)
+	assert.Equal(t, "bike event with id 1 not found", err.Error())
 }
 
 func TestDeleteBikeEventRepositoryError(t *testing.T) {
