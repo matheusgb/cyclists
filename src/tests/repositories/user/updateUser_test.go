@@ -44,6 +44,28 @@ func TestUpdateUserRepositorySuccess(t *testing.T) {
 	assert.Equal(t, domain.Name, user.Name)
 }
 
+func TestUpdateUserNotFoundRepositorySuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initUpdateMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(sqlmock.AnyArg(), domain.Name, 2).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
+		WithArgs(domain.ID).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+			AddRow(1, domain.Name))
+
+	repository := repositories.Init(db)
+	_, err := repository.UpdateUser(*domain)
+
+	assert.Error(t, err)
+	assert.Equal(t, "user with id 1 not found", err.Error())
+}
+
 func TestUpdateUserRepositoryError(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
