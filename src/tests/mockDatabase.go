@@ -26,8 +26,5 @@ func MockDatabase() (*gorm.DB, sqlmock.Sqlmock) {
 	if err != nil {
 		log.Fatalf("an error '%s' was not expected when opening a gorm database connection", err)
 	}
-
-	db.Logger.LogMode(logger.LogLevel(logger.Info))
-
 	return db, mock
 }
