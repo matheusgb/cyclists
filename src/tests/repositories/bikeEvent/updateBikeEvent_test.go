@@ -30,7 +30,7 @@ func initUpdateMockedDomain() *domains.BikeEvent {
 	return domain
 }
 
-func TestUpdateUserRepositorySuccess(t *testing.T) {
+func TestUpdateBikeEventRepositorySuccess(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
 
@@ -63,7 +63,71 @@ func TestUpdateUserRepositorySuccess(t *testing.T) {
 	assert.Equal(t, domain.Name, bikeEvent.Name)
 }
 
-func TestUpdateUserRepositoryAdminSuccess(t *testing.T) {
+func TestUpdateBikeEventNotFoundRepositorySuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initUpdateMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			"2",
+			domain.Organizer,
+		).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
+		WithArgs(domain.ID, domain.Organizer).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+			AddRow(1, domain.Name))
+
+	repository := repositories.Init(db)
+	_, err := repository.UpdateBikeEvent(*domain, 1)
+
+	assert.Error(t, err)
+	assert.Equal(t, "bike event with id 1 not found", err.Error())
+}
+
+func TestUpdateBikeEventNotFoundRepositoryAdminSuccess(t *testing.T) {
+	db, mock := tests.MockDatabase()
+	domain := initUpdateMockedDomain()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+		WithArgs(
+			sqlmock.AnyArg(),
+			domain.Name,
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			sqlmock.AnyArg(),
+			domain.StartPlace,
+			domain.Organizer,
+			"2",
+			domain.Organizer,
+		).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT`)).
+		WithArgs(domain.ID, domain.Organizer).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+			AddRow(1, domain.Name))
+
+	repository := repositories.Init(db)
+	_, err := repository.UpdateBikeEventAdmin(*domain)
+
+	assert.Error(t, err)
+	assert.Equal(t, "bike event with id 1 not found", err.Error())
+}
+
+func TestUpdateBikeEventRepositoryAdminSuccess(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
 
@@ -95,7 +159,7 @@ func TestUpdateUserRepositoryAdminSuccess(t *testing.T) {
 	assert.Equal(t, domain.Name, bikeEvent.Name)
 }
 
-func TestUpdateUserRepositoryError(t *testing.T) {
+func TestUpdateBikeEventRepositoryError(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
 
@@ -125,7 +189,7 @@ func TestUpdateUserRepositoryError(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestUpdateUserRepositoryAdminError(t *testing.T) {
+func TestUpdateBikeEventRepositoryAdminError(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initUpdateMockedDomain()
 
