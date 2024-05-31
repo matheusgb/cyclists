@@ -7,7 +7,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/bikeEvent"
-	"github.com/matheusgb/cyclists/src/tests"
+	"github.com/matheusgb/cyclists/src/tests/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,7 +17,7 @@ func initDeleteMockedDomain() *domains.BikeEvent {
 }
 
 func TestDeleteBikeEventRepository(t *testing.T) {
-	db, mock := tests.MockDatabase()
+	db, mock := mocks.MockDatabase()
 	domain := initDeleteMockedDomain()
 	t.Run("Success", func(t *testing.T) {
 

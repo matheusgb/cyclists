@@ -7,7 +7,7 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/bikeEvent"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
-	"github.com/matheusgb/cyclists/src/tests"
+	"github.com/matheusgb/cyclists/src/tests/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,7 +22,7 @@ func initGetAllBikeEventsPaginationMockedDomain() *domains.Pagination {
 }
 
 func TestGetAllBikeEventsRepository(t *testing.T) {
-	db, mock := tests.MockDatabase()
+	db, mock := mocks.MockDatabase()
 	domain := initGetAllBikeEventsPaginationMockedDomain()
 	t.Run("SuccessWithoutParam", func(t *testing.T) {
 

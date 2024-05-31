@@ -14,7 +14,7 @@ type IBikeEvent interface {
 	UpdateBikeEventAdmin(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
 	DeleteBikeEventAdmin(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
 	GetBikeEvent(bikeEvent domains.BikeEvent) (entities.BikeEvent, error)
-	GetAllBikeEvents(pagination *domainsP.Pagination, name string) (*domainsP.Pagination, error)
+	GetAllBikeEvents(pag *domainsP.Pagination, name string) (*domainsP.Pagination, error)
 }
 
 type BikeEvent struct {

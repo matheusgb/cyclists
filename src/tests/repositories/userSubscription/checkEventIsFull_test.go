@@ -7,7 +7,7 @@ import (
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/userSubscription"
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/userSubscription"
-	"github.com/matheusgb/cyclists/src/tests"
+	"github.com/matheusgb/cyclists/src/tests/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +27,7 @@ func InitCreateMockedDomain() *domains.UserSubscription {
 }
 
 func TestCheckEventIsFullRepository(t *testing.T) {
-	db, mock := tests.MockDatabase()
+	db, mock := mocks.MockDatabase()
 	domain := InitCreateMockedDomain()
 	t.Run("Success", func(t *testing.T) {
 		mock.ExpectQuery("SELECT").

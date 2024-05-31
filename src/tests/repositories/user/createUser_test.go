@@ -7,7 +7,7 @@ import (
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/user"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/user"
-	"github.com/matheusgb/cyclists/src/tests"
+	"github.com/matheusgb/cyclists/src/tests/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,7 +23,7 @@ func initCreateMockedDomain() *domains.User {
 }
 
 func TestCreateUserRepository(t *testing.T) {
-	db, mock := tests.MockDatabase()
+	db, mock := mocks.MockDatabase()
 	domain := initCreateMockedDomain()
 	t.Run("Success", func(t *testing.T) {
 

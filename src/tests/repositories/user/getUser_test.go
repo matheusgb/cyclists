@@ -6,7 +6,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/user"
-	"github.com/matheusgb/cyclists/src/tests"
+	"github.com/matheusgb/cyclists/src/tests/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +16,7 @@ func initGetUserMockedDomain() *domains.User {
 	return domain
 }
 func TestGetUserRepository(t *testing.T) {
-	db, mock := tests.MockDatabase()
+	db, mock := mocks.MockDatabase()
 	domain := initGetUserMockedDomain()
 	t.Run("Success", func(t *testing.T) {
 
