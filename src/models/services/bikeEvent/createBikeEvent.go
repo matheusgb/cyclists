@@ -10,7 +10,7 @@ import (
 
 func (bikeEvent *BikeEvent) CreateBikeEvent(domain domains.BikeEvent) (entities.BikeEvent, error) {
 	if domain.StartDate.Before(domain.EndDateRegistration) {
-		return entities.BikeEvent{}, fmt.Errorf("the event start date should be after the end date")
+		return entities.BikeEvent{}, fmt.Errorf("the event start date should be after the end date registration")
 	}
 
 	if domain.StartDate.Before(time.Now()) || domain.EndDateRegistration.Before(time.Now()) {
