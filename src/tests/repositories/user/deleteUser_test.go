@@ -16,51 +16,49 @@ func initDeleteMockedDomain() *domains.User {
 	return domain
 }
 
-func TestDeleteUserRepositorySuccess(t *testing.T) {
+func TestDeleteUserRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initDeleteMockedDomain()
+	t.Run("Success", func(t *testing.T) {
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.ID).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+			WithArgs(sqlmock.AnyArg(), domain.ID).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectCommit()
 
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUser(*domain)
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUser(*domain)
 
-	assert.NoError(t, err)
-}
+		assert.NoError(t, err)
+	})
 
-func TestDeleteUserNotFoundRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initDeleteMockedDomain()
+	t.Run("NotFound", func(t *testing.T) {
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), 2).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+			WithArgs(sqlmock.AnyArg(), 2).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectCommit()
 
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUser(*domain)
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUser(*domain)
 
-	assert.Error(t, err)
-	assert.Equal(t, "user with id 1 not found", err.Error())
-}
+		assert.Error(t, err)
+		assert.Equal(t, "user with id 1 not found", err.Error())
+	})
 
-func TestDeleteUserRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initDeleteMockedDomain()
+	t.Run("Error", func(t *testing.T) {
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
-		WithArgs(sqlmock.AnyArg(), domain.ID).
-		WillReturnError(db.Error)
-	mock.ExpectRollback()
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE`)).
+			WithArgs(sqlmock.AnyArg(), domain.ID).
+			WillReturnError(db.Error)
+		mock.ExpectRollback()
 
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUser(*domain)
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUser(*domain)
 
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

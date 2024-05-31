@@ -22,51 +22,46 @@ func initDeleteMockedDomain() *domains.UserSubscription {
 	return domain
 }
 
-func TestDeleteUserSubscriptionRepositorySuccess(t *testing.T) {
+func TestDeleteUserSubscriptionRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initDeleteMockedDomain()
+	t.Run("Success", func(t *testing.T) {
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
+			WithArgs(domain.BikeEventID, domain.UserID).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectCommit()
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
-		WithArgs(domain.BikeEventID, domain.UserID).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUserSubscription(*domain)
 
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUserSubscription(*domain)
+		assert.NoError(t, err)
+	})
 
-	assert.NoError(t, err)
-}
+	t.Run("NotFound", func(t *testing.T) {
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
+			WithArgs(1, 2).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectCommit()
 
-func TestDeleteUserSubscriptionNotFoundRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initDeleteMockedDomain()
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUserSubscription(*domain)
 
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
-		WithArgs(1, 2).
-		WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
+		assert.Error(t, err)
+		assert.Equal(t, "user subscription with id 1 and 1 not found", err.Error())
+	})
 
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUserSubscription(*domain)
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectBegin()
+		mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
+			WithArgs(domain.BikeEventID, domain.ID).
+			WillReturnError(db.Error)
+		mock.ExpectRollback()
 
-	assert.Error(t, err)
-	assert.Equal(t, "user subscription with id 1 and 1 not found", err.Error())
-}
+		repository := repositories.Init(db)
+		_, err := repository.DeleteUserSubscription(*domain)
 
-func TestDeleteUserSubscriptionRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initDeleteMockedDomain()
-
-	mock.ExpectBegin()
-	mock.ExpectExec(regexp.QuoteMeta(`DELETE`)).
-		WithArgs(domain.BikeEventID, domain.ID).
-		WillReturnError(db.Error)
-	mock.ExpectRollback()
-
-	repository := repositories.Init(db)
-	_, err := repository.DeleteUserSubscription(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

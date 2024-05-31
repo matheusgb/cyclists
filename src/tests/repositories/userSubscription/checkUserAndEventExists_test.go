@@ -9,108 +9,98 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCheckUserAndEventExistsRepositorySuccess(t *testing.T) {
+func TestCheckUserAndEventExistsRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := InitCreateMockedDomain()
+	t.Run("Success", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.UserID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				).AddRow(
+					1,
+				),
+			)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.UserID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			).AddRow(
-				1,
-			),
-		)
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				).AddRow(
+					1,
+				),
+			)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			).AddRow(
-				1,
-			),
-		)
+		repository := repositories.Init(db)
+		err := repository.CheckUserAndEventExists(*domain)
 
-	repository := repositories.Init(db)
-	err := repository.CheckUserAndEventExists(*domain)
+		assert.NoError(t, err)
+	})
 
-	assert.NoError(t, err)
-}
+	t.Run("UserNotExists", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.UserID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				),
+			)
 
-func TestCheckUserNotExistsRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				).AddRow(
+					1,
+				),
+			)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.UserID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			),
-		)
+		repository := repositories.Init(db)
+		err := repository.CheckUserAndEventExists(*domain)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			).AddRow(
-				1,
-			),
-		)
+		assert.Error(t, err)
+		assert.Equal(t, "user not found", err.Error())
+	})
 
-	repository := repositories.Init(db)
-	err := repository.CheckUserAndEventExists(*domain)
+	t.Run("EventNotExists", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.UserID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				),
+			)
 
-	assert.Error(t, err)
-	assert.Equal(t, "user not found", err.Error())
-}
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id"},
+				),
+			)
 
-func TestCheckEventNotExistsRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
+		repository := repositories.Init(db)
+		err := repository.CheckUserAndEventExists(*domain)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.UserID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			).AddRow(
-				1,
-			),
-		)
+		assert.Error(t, err)
+		assert.Equal(t, "event not found", err.Error())
+	})
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id"},
-			),
-		)
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.UserID).
+			WillReturnError(db.Error)
 
-	repository := repositories.Init(db)
-	err := repository.CheckUserAndEventExists(*domain)
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnError(db.Error)
 
-	assert.Error(t, err)
-	assert.Equal(t, "event not found", err.Error())
-}
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsValidDate(*domain)
 
-func TestCheckUserAndEventExistsRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
-
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.UserID).
-		WillReturnError(db.Error)
-
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnError(db.Error)
-
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsValidDate(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

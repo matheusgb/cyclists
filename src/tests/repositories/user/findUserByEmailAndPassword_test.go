@@ -21,33 +21,32 @@ func initFindByEmailAndPasswordMockedDomain() *domains.User {
 	return domain
 }
 
-func TestFindUserByEmailAndPasswordRepositorySuccess(t *testing.T) {
+func TestFindUserByEmailAndPasswordRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initFindByEmailAndPasswordMockedDomain()
+	t.Run("Success", func(t *testing.T) {
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.Email, domain.Password).
-		WillReturnRows(sqlmock.NewRows([]string{"email", "password"}).
-			AddRow(domain.Email, domain.Password))
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.Email, domain.Password).
+			WillReturnRows(sqlmock.NewRows([]string{"email", "password"}).
+				AddRow(domain.Email, domain.Password))
 
-	repository := repositories.Init(db)
-	user, err := repository.FindUserByEmailAndPassword(*domain)
+		repository := repositories.Init(db)
+		user, err := repository.FindUserByEmailAndPassword(*domain)
 
-	assert.NoError(t, err)
-	assert.Equal(t, domain.Email, user.Email)
-	assert.Equal(t, domain.Password, user.Password)
-}
+		assert.NoError(t, err)
+		assert.Equal(t, domain.Email, user.Email)
+		assert.Equal(t, domain.Password, user.Password)
+	})
 
-func TestFindUserByEmailAndPasswordRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initFindByEmailAndPasswordMockedDomain()
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.Email, domain.Password).
+			WillReturnError(db.Error)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.Email, domain.Password).
-		WillReturnError(db.Error)
+		repository := repositories.Init(db)
+		_, err := repository.FindUserByEmailAndPassword(*domain)
 
-	repository := repositories.Init(db)
-	_, err := repository.FindUserByEmailAndPassword(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

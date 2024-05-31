@@ -15,41 +15,40 @@ func initGetUserMockedDomain() *domains.User {
 
 	return domain
 }
-func TestGetUserRepositorySuccess(t *testing.T) {
+func TestGetUserRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initGetUserMockedDomain()
+	t.Run("Success", func(t *testing.T) {
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("1").
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).
-			AddRow(1))
+		mock.ExpectQuery("SELECT").
+			WithArgs("1").
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).
+				AddRow(1))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(1).
-		WillReturnRows(sqlmock.NewRows([]string{"user_id"}).
-			AddRow(1))
+		mock.ExpectQuery("SELECT").
+			WithArgs(1).
+			WillReturnRows(sqlmock.NewRows([]string{"user_id"}).
+				AddRow(1))
 
-	repository := repositories.Init(db)
-	user, err := repository.GetUser(*domain)
+		repository := repositories.Init(db)
+		user, err := repository.GetUser(*domain)
 
-	assert.NoError(t, err)
-	assert.Equal(t, uint(1), user.ID)
-}
+		assert.NoError(t, err)
+		assert.Equal(t, uint(1), user.ID)
+	})
 
-func TestGetUserRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initGetUserMockedDomain()
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs("1").
+			WillReturnError(db.Error)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("1").
-		WillReturnError(db.Error)
+		mock.ExpectQuery("SELECT").
+			WithArgs(1).
+			WillReturnError(db.Error)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(1).
-		WillReturnError(db.Error)
+		repository := repositories.Init(db)
+		_, err := repository.GetUser(*domain)
 
-	repository := repositories.Init(db)
-	_, err := repository.GetUser(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

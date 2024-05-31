@@ -21,73 +21,69 @@ func initGetAllUsersPaginationMockedDomain() *domains.Pagination {
 	return domain
 }
 
-func TestGetAllUsersRepositorySuccessWithoutParam(t *testing.T) {
+func TestGetAllUsersRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initGetAllUsersPaginationMockedDomain()
+	t.Run("SuccessWithoutParam", func(t *testing.T) {
 
-	mock.ExpectQuery("SELECT").
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).
-			AddRow(1).AddRow(2))
+		mock.ExpectQuery("SELECT").
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).
+				AddRow(1).AddRow(2))
 
-	mock.ExpectQuery("SELECT").
-		WillReturnRows(sqlmock.NewRows([]string{"email"}).
-			AddRow("test@mail.com").AddRow("test2@mail.com"))
+		mock.ExpectQuery("SELECT").
+			WillReturnRows(sqlmock.NewRows([]string{"email"}).
+				AddRow("test@mail.com").AddRow("test2@mail.com"))
 
-	repository := repositories.Init(db)
-	user, err := repository.GetAllUsers(domain, "")
+		repository := repositories.Init(db)
+		user, err := repository.GetAllUsers(domain, "")
 
-	assert.NoError(t, err)
-	assert.Equal(t, 2, len(user.Rows.([]entities.User)))
-	assert.Equal(t, "test@mail.com", user.Rows.([]entities.User)[0].Email)
-	assert.Equal(t, "test2@mail.com", user.Rows.([]entities.User)[1].Email)
-	assert.Equal(t, int64(2), user.TotalRows)
-	assert.Equal(t, 1, user.TotalPages)
-	assert.Equal(t, 1, user.Page)
-	assert.Equal(t, 10, user.Limit)
-	assert.Equal(t, "Id desc", user.Sort)
-}
+		assert.NoError(t, err)
+		assert.Equal(t, 2, len(user.Rows.([]entities.User)))
+		assert.Equal(t, "test@mail.com", user.Rows.([]entities.User)[0].Email)
+		assert.Equal(t, "test2@mail.com", user.Rows.([]entities.User)[1].Email)
+		assert.Equal(t, int64(2), user.TotalRows)
+		assert.Equal(t, 1, user.TotalPages)
+		assert.Equal(t, 1, user.Page)
+		assert.Equal(t, 10, user.Limit)
+		assert.Equal(t, "Id desc", user.Sort)
+	})
 
-func TestGetAllUsersRepositorySuccessWithParam(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initGetAllUsersPaginationMockedDomain()
+	t.Run("SuccessWithParam", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs("%test@mail.com%").
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).
+				AddRow(1))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("%test@mail.com%").
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).
-			AddRow(1))
+		mock.ExpectQuery("SELECT").
+			WithArgs("%test@mail.com%").
+			WillReturnRows(sqlmock.NewRows([]string{"email"}).
+				AddRow("test@mail.com"))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("%test@mail.com%").
-		WillReturnRows(sqlmock.NewRows([]string{"email"}).
-			AddRow("test@mail.com"))
+		repository := repositories.Init(db)
+		user, err := repository.GetAllUsers(domain, "test@mail.com")
 
-	repository := repositories.Init(db)
-	user, err := repository.GetAllUsers(domain, "test@mail.com")
+		assert.NoError(t, err)
+		assert.Equal(t, 1, len(user.Rows.([]entities.User)))
+		assert.Equal(t, "test@mail.com", user.Rows.([]entities.User)[0].Email)
+		assert.Equal(t, int64(1), user.TotalRows)
+		assert.Equal(t, 1, user.TotalPages)
+		assert.Equal(t, 1, user.Page)
+		assert.Equal(t, 10, user.Limit)
+		assert.Equal(t, "Id desc", user.Sort)
+	})
 
-	assert.NoError(t, err)
-	assert.Equal(t, 1, len(user.Rows.([]entities.User)))
-	assert.Equal(t, "test@mail.com", user.Rows.([]entities.User)[0].Email)
-	assert.Equal(t, int64(1), user.TotalRows)
-	assert.Equal(t, 1, user.TotalPages)
-	assert.Equal(t, 1, user.Page)
-	assert.Equal(t, 10, user.Limit)
-	assert.Equal(t, "Id desc", user.Sort)
-}
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs("%test%").
+			WillReturnError(db.Error)
 
-func TestGetAllUsersRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initGetAllUsersPaginationMockedDomain()
+		mock.ExpectQuery("SELECT").
+			WithArgs("%test%").
+			WillReturnError(db.Error)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("%test%").
-		WillReturnError(db.Error)
+		repository := repositories.Init(db)
+		_, err := repository.GetAllUsers(domain, "test")
 
-	mock.ExpectQuery("SELECT").
-		WithArgs("%test%").
-		WillReturnError(db.Error)
-
-	repository := repositories.Init(db)
-	_, err := repository.GetAllUsers(domain, "test")
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

@@ -10,61 +10,56 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCheckEventIsValidDateRepositorySuccess(t *testing.T) {
+func TestCheckEventIsValidDateRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := InitCreateMockedDomain()
+	t.Run("Success", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id", "start_date_registration", "end_date_registration"},
+				).AddRow(
+					1,
+					time.Now().AddDate(0, 0, -1),
+					time.Now().AddDate(0, 0, 1),
+				),
+			)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id", "start_date_registration", "end_date_registration"},
-			).AddRow(
-				1,
-				time.Now().AddDate(0, 0, -1),
-				time.Now().AddDate(0, 0, 1),
-			),
-		)
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsValidDate(*domain)
 
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsValidDate(*domain)
+		assert.NoError(t, err)
+	})
 
-	assert.NoError(t, err)
-}
+	t.Run("InvalidDate", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id", "start_date_registration", "end_date_registration"},
+				).AddRow(
+					1,
+					time.Now().AddDate(0, 0, -2),
+					time.Now().AddDate(0, 0, -1),
+				),
+			)
 
-func TestCheckEventIsInvalidDateRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsValidDate(*domain)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id", "start_date_registration", "end_date_registration"},
-			).AddRow(
-				1,
-				time.Now().AddDate(0, 0, -2),
-				time.Now().AddDate(0, 0, -1),
-			),
-		)
+		assert.Error(t, err)
+		assert.Equal(t, "the event subscription is out of date", err.Error())
+	})
 
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsValidDate(*domain)
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnError(db.Error)
 
-	assert.Error(t, err)
-	assert.Equal(t, "the event subscription is out of date", err.Error())
-}
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsValidDate(*domain)
 
-func TestCheckEventIsValidDateRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
-
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnError(db.Error)
-
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsValidDate(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

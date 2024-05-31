@@ -30,78 +30,78 @@ func initCreateMockedDomain() *domains.BikeEvent {
 	return domain
 }
 
-func TestCreateBikeEventRepositorySuccess(t *testing.T) {
+func TestCreateBikeEventRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initCreateMockedDomain()
+	t.Run("Success", func(t *testing.T) {
 
-	mock.ExpectBegin()
-	mock.ExpectQuery("INSERT").
-		WithArgs(
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			domain.Name,
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			domain.StartPlace,
-			domain.Organizer,
-			domain.AditionalInformation,
-			domain.ParticipantsLimit,
-		).
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
-	mock.ExpectCommit()
-
-	mock.ExpectQuery("SELECT").
-		WithArgs(1).
-		WillReturnRows(
-			sqlmock.NewRows(
-				[]string{"id", "name", "start_place", "organizer"},
-			).AddRow(
-				1,
+		mock.ExpectBegin()
+		mock.ExpectQuery("INSERT").
+			WithArgs(
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
 				domain.Name,
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
 				domain.StartPlace,
 				domain.Organizer,
-			),
-		)
+				domain.AditionalInformation,
+				domain.ParticipantsLimit,
+			).
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		mock.ExpectCommit()
 
-	repository := repositories.Init(db)
-	bikeEvent, err := repository.CreateBikeEvent(*domain)
+		mock.ExpectQuery("SELECT").
+			WithArgs(1).
+			WillReturnRows(
+				sqlmock.NewRows(
+					[]string{"id", "name", "start_place", "organizer"},
+				).AddRow(
+					1,
+					domain.Name,
+					domain.StartPlace,
+					domain.Organizer,
+				),
+			)
 
-	assert.NoError(t, err)
-	assert.Equal(t, domain.Name, bikeEvent.Name)
-	assert.Equal(t, domain.StartPlace, bikeEvent.StartPlace)
-	assert.Equal(t, domain.Organizer, bikeEvent.Organizer)
-}
+		repository := repositories.Init(db)
+		bikeEvent, err := repository.CreateBikeEvent(*domain)
 
-func TestCreateBikeEventRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initCreateMockedDomain()
+		assert.NoError(t, err)
+		assert.Equal(t, domain.Name, bikeEvent.Name)
+		assert.Equal(t, domain.StartPlace, bikeEvent.StartPlace)
+		assert.Equal(t, domain.Organizer, bikeEvent.Organizer)
+	})
 
-	mock.ExpectBegin()
-	mock.ExpectQuery("INSERT").
-		WithArgs(
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			domain.Name,
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			sqlmock.AnyArg(),
-			domain.StartPlace,
-			domain.Organizer,
-			domain.AditionalInformation,
-			domain.ParticipantsLimit,
-		).
-		WillReturnError(db.Error)
-	mock.ExpectCommit()
+	t.Run("Error", func(t *testing.T) {
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(1).
-		WillReturnError(db.Error)
+		mock.ExpectBegin()
+		mock.ExpectQuery("INSERT").
+			WithArgs(
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				domain.Name,
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				sqlmock.AnyArg(),
+				domain.StartPlace,
+				domain.Organizer,
+				domain.AditionalInformation,
+				domain.ParticipantsLimit,
+			).
+			WillReturnError(db.Error)
+		mock.ExpectCommit()
 
-	repository := repositories.Init(db)
-	_, err := repository.CreateBikeEvent(*domain)
+		mock.ExpectQuery("SELECT").
+			WithArgs(1).
+			WillReturnError(db.Error)
 
-	assert.Error(t, err)
+		repository := repositories.Init(db)
+		_, err := repository.CreateBikeEvent(*domain)
+
+		assert.Error(t, err)
+	})
 }

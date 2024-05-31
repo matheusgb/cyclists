@@ -19,32 +19,31 @@ func initFindByEmailMockedDomain() *domains.User {
 	return domain
 }
 
-func TestFindUserByEmailRepositorySuccess(t *testing.T) {
+func TestFindUserByEmailRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := initFindByEmailMockedDomain()
+	t.Run("Success", func(t *testing.T) {
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.Email).
-		WillReturnRows(sqlmock.NewRows([]string{"email"}).
-			AddRow(domain.Email))
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.Email).
+			WillReturnRows(sqlmock.NewRows([]string{"email"}).
+				AddRow(domain.Email))
 
-	repository := repositories.Init(db)
-	user, err := repository.FindUserByEmail(*domain)
+		repository := repositories.Init(db)
+		user, err := repository.FindUserByEmail(*domain)
 
-	assert.NoError(t, err)
-	assert.Equal(t, domain.Email, user.Email)
-}
+		assert.NoError(t, err)
+		assert.Equal(t, domain.Email, user.Email)
+	})
 
-func TestFindUserByEmailRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := initFindByEmailMockedDomain()
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.Email).
+			WillReturnError(db.Error)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.Email).
-		WillReturnError(db.Error)
+		repository := repositories.Init(db)
+		_, err := repository.FindUserByEmail(*domain)
 
-	repository := repositories.Init(db)
-	_, err := repository.FindUserByEmail(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }

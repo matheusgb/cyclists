@@ -26,59 +26,54 @@ func InitCreateMockedDomain() *domains.UserSubscription {
 	return domain
 }
 
-func TestCheckEventRepositorySuccess(t *testing.T) {
+func TestCheckEventIsFullRepository(t *testing.T) {
 	db, mock := tests.MockDatabase()
 	domain := InitCreateMockedDomain()
+	t.Run("Success", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(sqlmock.NewRows([]string{"participants_limit"}).
+				AddRow(2))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"participants_limit"}).
-			AddRow(2))
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsFull(*domain)
 
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsFull(*domain)
+		assert.NoError(t, err)
+	})
 
-	assert.NoError(t, err)
-}
+	t.Run("EventIsFull", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 
-func TestCheckEventIsFullRepositorySuccess(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnRows(sqlmock.NewRows([]string{"participants_limit"}).
+				AddRow(1))
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsFull(*domain)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnRows(sqlmock.NewRows([]string{"participants_limit"}).
-			AddRow(1))
+		assert.Error(t, err)
+		assert.Equal(t, "event is full", err.Error())
+	})
 
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsFull(*domain)
+	t.Run("Error", func(t *testing.T) {
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnError(db.Error)
 
-	assert.Error(t, err)
-	assert.Equal(t, "event is full", err.Error())
-}
+		mock.ExpectQuery("SELECT").
+			WithArgs(domain.BikeEventID).
+			WillReturnError(db.Error)
 
-func TestCheckEventIsFullRepositoryError(t *testing.T) {
-	db, mock := tests.MockDatabase()
-	domain := InitCreateMockedDomain()
+		repository := repositories.Init(db)
+		err := repository.CheckEventIsFull(*domain)
 
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnError(db.Error)
-
-	mock.ExpectQuery("SELECT").
-		WithArgs(domain.BikeEventID).
-		WillReturnError(db.Error)
-
-	repository := repositories.Init(db)
-	err := repository.CheckEventIsFull(*domain)
-
-	assert.Error(t, err)
+		assert.Error(t, err)
+	})
 }
