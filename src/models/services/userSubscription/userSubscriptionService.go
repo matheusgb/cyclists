@@ -15,6 +15,6 @@ type UserSubscription struct {
 	repository repositories.IUserSubscription
 }
 
-func Init(service repositories.IUserSubscription) IUserSubscription {
-	return &UserSubscription{service}
+func Init(repository repositories.IUserSubscription) IUserSubscription {
+	return &UserSubscription{repository}
 }

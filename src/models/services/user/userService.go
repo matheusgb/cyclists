@@ -23,6 +23,6 @@ type User struct {
 	repository repositories.IUser
 }
 
-func Init(service repositories.IUser) IUser {
-	return &User{service}
+func Init(repository repositories.IUser) IUser {
+	return &User{repository}
 }

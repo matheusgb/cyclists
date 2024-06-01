@@ -19,6 +19,6 @@ type BikeEvent struct {
 	repository repositories.IBikeEvent
 }
 
-func Init(service repositories.IBikeEvent) IBikeEvent {
-	return &BikeEvent{service}
+func Init(repository repositories.IBikeEvent) IBikeEvent {
+	return &BikeEvent{repository}
 }
