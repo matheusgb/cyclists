@@ -25,9 +25,8 @@ func TestGetUserService(t *testing.T) {
 			Model: gorm.Model{
 				ID: 1,
 			},
-			Name:     "Test",
-			Email:    "test@mail.com",
-			Password: domain.Password,
+			Name:  "Test",
+			Email: "test@mail.com",
 		}
 
 		repository.EXPECT().GetUser(*domain).Return(entity, nil)
