@@ -9,7 +9,8 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 	services "github.com/matheusgb/cyclists/src/models/services/userSubscription"
-	"github.com/matheusgb/cyclists/src/tests/mocks"
+	mocks "github.com/matheusgb/cyclists/src/tests/repositories/mocks"
+
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 )

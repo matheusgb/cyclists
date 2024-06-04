@@ -7,7 +7,8 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/pagination"
 	"github.com/matheusgb/cyclists/src/models/repositories/entities"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/user"
-	"github.com/matheusgb/cyclists/src/tests/mocks"
+	mocks "github.com/matheusgb/cyclists/src/tests/repositories/mocks"
+
 	"github.com/stretchr/testify/assert"
 )
 

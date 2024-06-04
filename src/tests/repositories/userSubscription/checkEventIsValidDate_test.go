@@ -6,7 +6,8 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/userSubscription"
-	"github.com/matheusgb/cyclists/src/tests/mocks"
+	mocks "github.com/matheusgb/cyclists/src/tests/repositories/mocks"
+
 	"github.com/stretchr/testify/assert"
 )
 

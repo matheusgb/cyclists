@@ -8,7 +8,8 @@ import (
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/bikeEvent"
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/bikeEvent"
-	"github.com/matheusgb/cyclists/src/tests/mocks"
+	mocks "github.com/matheusgb/cyclists/src/tests/repositories/mocks"
+
 	"github.com/stretchr/testify/assert"
 )
 

@@ -8,7 +8,8 @@ import (
 	requests "github.com/matheusgb/cyclists/src/controllers/requests/userSubscription"
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
 	repositories "github.com/matheusgb/cyclists/src/models/repositories/userSubscription"
-	"github.com/matheusgb/cyclists/src/tests/mocks"
+	mocks "github.com/matheusgb/cyclists/src/tests/repositories/mocks"
+
 	"github.com/stretchr/testify/assert"
 )
 
