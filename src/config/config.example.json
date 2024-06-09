@@ -16,5 +16,6 @@
     "apiKey": "",
     "fromEmail": "",
     "urlFrontEnd": "INSERT YOUR FRONTEND URL HERE"
-  }
+  },
+  "enviroment": ""
 }
