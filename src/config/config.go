@@ -7,10 +7,11 @@ import (
 )
 
 type Config struct {
-	Database Database
-	Api      Api
-	Jwt      Jwt
-	SendGrid SendGrid
+	Database   Database
+	Api        Api
+	Jwt        Jwt
+	SendGrid   SendGrid
+	Enviroment string
 }
 
 type Database struct {
