@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h4 align="center">RESTful api made with <a href="https://go.dev/" target="_blank">Golang</a>.</h4>
+<h4 align="center">RESTful API made with <a href="https://go.dev/" target="_blank">Golang</a>.</h4>
 
 <p align="center">
   <a>
