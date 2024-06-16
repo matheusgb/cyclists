@@ -32,7 +32,7 @@
 
 ## How To Use
 
-Fill in `config.json `file with your PostgreSQL database, JWT, and SendGrid credentials.
+Fill in `config.json` file with your PostgreSQL database, JWT, and SendGrid credentials.
 
 There is no necessity to change `enviroment` key.
 
