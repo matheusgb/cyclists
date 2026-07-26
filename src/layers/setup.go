@@ -21,6 +21,11 @@ func Setup(config *config.Config) *fiber.App {
 	userSubscriptionControllers := InitUserSubscription(databaseClient)
 
 	app := fiber.New()
+
+	app.Get("/health", func(ctx *fiber.Ctx) error {
+		return ctx.JSON(fiber.Map{"status": "ok"})
+	})
+
 	v1 := app.Group("/api/v1")
 	routes.UserRoutes(v1, userControllers)
 	routes.BikeEventRoutes(v1, bikeEventControllers)

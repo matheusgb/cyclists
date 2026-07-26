@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cyclists
+      POSTGRES_PASSWORD: cyclists
+      POSTGRES_DB: cyclists
+    ports:
+      - "5432:5432"
+    volumes:
+      - cyclists-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyclists"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/config/config.json:/app/src/config/config.json:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  cyclists-db:

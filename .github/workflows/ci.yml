@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: cyclists
+          POSTGRES_PASSWORD: cyclists
+          POSTGRES_DB: cyclists
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U cyclists"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Build
+        run: go build ./...
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Set up config.json
+        run: |
+          jq -n \
+            --arg user "cyclists" \
+            --arg password "cyclists" \
+            --arg name "cyclists" \
+            '{
+              database: {user: $user, password: $password, host: "localhost", port: "5432", name: $name},
+              api: {port: ":3000"},
+              jwt: {secret: "ci-secret"},
+              sendgrid: {apiKey: "", fromEmail: "", urlFrontEnd: ""},
+              enviroment: "test"
+            }' > src/config/config.json
+
+      - name: Test
+        run: go test -v ./src/tests/...
