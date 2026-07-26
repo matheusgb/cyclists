@@ -9,6 +9,19 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
 )
 
+// DeleteUserSubscription godoc
+//
+//	@Summary		Cancela a inscrição de um usuário em um evento
+//	@Description	Remove a inscrição de um usuário em um evento de ciclismo
+//	@Tags			user-subscriptions
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			request	body	requests.UserSubscription	true	"Dados da inscrição"
+//	@Success		204
+//	@Failure		400	{object}	map[string]string
+//	@Failure		403	{object}	map[string]string
+//	@Router			/user-subscription [delete]
 func (UserSubscription *UserSubscription) DeleteUserSubscription(ctx *fiber.Ctx) error {
 	var request requests.UserSubscription
 

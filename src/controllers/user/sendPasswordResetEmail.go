@@ -7,6 +7,18 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
+// SendPasswordResetEmail godoc
+//
+//	@Summary		Envia e-mail de redefinição de senha
+//	@Description	Envia um e-mail com o link de redefinição de senha via SendGrid
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		requests.SendPasswordResetEmail	true	"E-mail do usuário"
+//	@Success		200		{object}	map[string]string
+//	@Failure		400		{object}	map[string]string
+//	@Failure		401		{object}	map[string]string
+//	@Router			/send-password-email [post]
 func (user *User) SendPasswordResetEmail(ctx *fiber.Ctx) error {
 	var request requests.SendPasswordResetEmail
 

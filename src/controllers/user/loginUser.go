@@ -8,6 +8,18 @@ import (
 	"github.com/matheusgb/cyclists/src/views"
 )
 
+// LoginUser godoc
+//
+//	@Summary		Login
+//	@Description	Autentica um usuário e retorna um token JWT
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		requests.LoginUser	true	"Credenciais"
+//	@Success		200		{object}	views.LoginUserResponse
+//	@Failure		400		{object}	map[string]string
+//	@Failure		401		{object}	map[string]string
+//	@Router			/login [post]
 func (user *User) LoginUser(ctx *fiber.Ctx) error {
 	var request requests.LoginUser
 

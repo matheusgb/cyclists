@@ -9,6 +9,19 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
 )
 
+// UpdateBikeEvent godoc
+//
+//	@Summary		Atualiza um evento de ciclismo
+//	@Description	Atualiza os dados de um evento. Requer o organizador ou privilégio de admin
+//	@Tags			bike-events
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			id		path	string						true	"ID do evento"
+//	@Param			request	body	requests.UpdateBikeEvent	true	"Dados a atualizar"
+//	@Success		204
+//	@Failure		400	{object}	map[string]string
+//	@Router			/bike-event/{id} [patch]
 func (bikeEvent *BikeEvent) UpdateBikeEvent(ctx *fiber.Ctx) error {
 	var request requests.UpdateBikeEvent
 

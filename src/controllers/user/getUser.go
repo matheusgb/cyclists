@@ -6,6 +6,17 @@ import (
 	"github.com/matheusgb/cyclists/src/views"
 )
 
+// GetUser godoc
+//
+//	@Summary		Busca um usuário
+//	@Description	Retorna um usuário pelo ID
+//	@Tags			users
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			id	path		string	true	"ID do usuário"
+//	@Success		200	{object}	views.UserResponseWithBikeEvents
+//	@Failure		400	{object}	map[string]string
+//	@Router			/user/{id} [get]
 func (user *User) GetUser(ctx *fiber.Ctx) error {
 	UserID := ctx.Params("id", "")
 	if UserID == "" {

@@ -1,7 +1,10 @@
-.PHONY: run test lint build up down
+.PHONY: run test lint build up down swag
 
 run:
 	go run main.go
+
+swag:
+	swag init -g main.go -o docs --parseDependency --parseInternal
 
 test:
 	go test -v ./src/tests/...

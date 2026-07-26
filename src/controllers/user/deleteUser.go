@@ -5,6 +5,18 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
+// DeleteUser godoc
+//
+//	@Summary		Remove um usuário
+//	@Description	Remove um usuário existente. Requer o próprio usuário ou privilégio de admin
+//	@Tags			users
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			id	path	string	true	"ID do usuário"
+//	@Success		204
+//	@Failure		400	{object}	map[string]string
+//	@Failure		403	{object}	map[string]string
+//	@Router			/user/{id} [delete]
 func (user *User) DeleteUser(ctx *fiber.Ctx) error {
 	contextUserID := ctx.Locals("user_id").(string)
 	contextUserRole := ctx.Locals("user_role").(string)

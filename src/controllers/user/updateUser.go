@@ -7,6 +7,20 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
+// UpdateUser godoc
+//
+//	@Summary		Atualiza um usuário
+//	@Description	Atualiza os dados de um usuário. Requer o próprio usuário ou privilégio de admin
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			id		path	string				true	"ID do usuário"
+//	@Param			request	body	requests.UpdateUser	true	"Dados a atualizar"
+//	@Success		204
+//	@Failure		400	{object}	map[string]string
+//	@Failure		403	{object}	map[string]string
+//	@Router			/user/{id} [patch]
 func (user *User) UpdateUser(ctx *fiber.Ctx) error {
 	var request requests.UpdateUser
 	contextUserID := ctx.Locals("user_id").(string)

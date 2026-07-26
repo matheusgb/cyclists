@@ -9,6 +9,19 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
 )
 
+// CreateBikeEvent godoc
+//
+//	@Summary		Cria um evento de ciclismo
+//	@Description	Cria um novo evento de ciclismo em nome do usuário autenticado
+//	@Tags			bike-events
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			request	body	requests.CreateBikeEvent	true	"Dados do evento"
+//	@Success		201
+//	@Failure		400	{object}	map[string]string
+//	@Failure		403	{object}	map[string]string
+//	@Router			/bike-event [post]
 func (bikeEvent *BikeEvent) CreateBikeEvent(ctx *fiber.Ctx) error {
 	var request requests.CreateBikeEvent
 

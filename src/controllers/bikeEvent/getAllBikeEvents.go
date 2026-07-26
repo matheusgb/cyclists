@@ -6,6 +6,20 @@ import (
 	"github.com/matheusgb/cyclists/src/views"
 )
 
+// GetAllBikeEvents godoc
+//
+//	@Summary		Lista eventos de ciclismo
+//	@Description	Lista eventos com paginação e filtro por nome
+//	@Tags			bike-events
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			limit	query		int		false	"Limite de itens por página"
+//	@Param			page	query		int		false	"Página"
+//	@Param			sort	query		string	false	"Campo de ordenação"
+//	@Param			name	query		string	false	"Filtro por nome"
+//	@Success		200		{object}	map[string]interface{}
+//	@Failure		400		{object}	map[string]string
+//	@Router			/bike-event [get]
 func (bikeEvent *BikeEvent) GetAllBikeEvents(ctx *fiber.Ctx) error {
 	limit := ctx.QueryInt("limit", 0)
 	page := ctx.QueryInt("page", 0)

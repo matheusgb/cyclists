@@ -9,6 +9,19 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/userSubscription"
 )
 
+// CreateUserSubscription godoc
+//
+//	@Summary		Inscreve um usuário em um evento
+//	@Description	Cria a inscrição de um usuário em um evento de ciclismo
+//	@Tags			user-subscriptions
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			request	body	requests.UserSubscription	true	"Dados da inscrição"
+//	@Success		201
+//	@Failure		400	{object}	map[string]string
+//	@Failure		403	{object}	map[string]string
+//	@Router			/user-subscription [post]
 func (UserSubscription *UserSubscription) CreateUserSubscription(ctx *fiber.Ctx) error {
 	var request requests.UserSubscription
 

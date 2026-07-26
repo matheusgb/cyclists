@@ -2,6 +2,9 @@ package layers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	swagger "github.com/swaggo/fiber-swagger"
+
+	_ "github.com/matheusgb/cyclists/docs"
 	"github.com/matheusgb/cyclists/src/config"
 	routes "github.com/matheusgb/cyclists/src/controllers"
 	"github.com/matheusgb/cyclists/src/controllers/validators"
@@ -25,6 +28,8 @@ func Setup(config *config.Config) *fiber.App {
 	app.Get("/health", func(ctx *fiber.Ctx) error {
 		return ctx.JSON(fiber.Map{"status": "ok"})
 	})
+
+	app.Get("/docs/*", swagger.WrapHandler)
 
 	v1 := app.Group("/api/v1")
 	routes.UserRoutes(v1, userControllers)

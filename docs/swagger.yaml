@@ -1,0 +1,719 @@
+basePath: /api/v1
+definitions:
+  requests.CreateBikeEvent:
+    properties:
+      aditional_information:
+        maxLength: 255
+        minLength: 3
+        type: string
+      end_date_registration:
+        type: string
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+      organizer:
+        type: integer
+      participants_limit:
+        maximum: 1000
+        minimum: 2
+        type: integer
+      start_date:
+        type: string
+      start_date_registration:
+        type: string
+      start_place:
+        maxLength: 255
+        minLength: 2
+        type: string
+    required:
+    - end_date_registration
+    - name
+    - organizer
+    - start_date
+    - start_date_registration
+    - start_place
+    type: object
+  requests.CreateUser:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+      password:
+        maxLength: 255
+        minLength: 6
+        type: string
+      password_confirmation:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - password_confirmation
+    type: object
+  requests.LoginUser:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 255
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  requests.ResetPassword:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 100
+        minLength: 6
+        type: string
+      password_confirmation:
+        type: string
+    required:
+    - email
+    - password
+    - password_confirmation
+    type: object
+  requests.SendPasswordResetEmail:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  requests.UpdateBikeEvent:
+    properties:
+      aditional_information:
+        maxLength: 255
+        minLength: 3
+        type: string
+      end_date_registration:
+        type: string
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+      organizer:
+        type: integer
+      participants_limit:
+        maximum: 1000
+        minimum: 2
+        type: integer
+      start_date:
+        type: string
+      start_date_registration:
+        type: string
+      start_place:
+        maxLength: 255
+        minLength: 2
+        type: string
+    type: object
+  requests.UpdateUser:
+    properties:
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+    type: object
+  requests.UserSubscription:
+    properties:
+      bike_event_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - bike_event_id
+    - user_id
+    type: object
+  views.BikeEventResponse:
+    properties:
+      aditional_information:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  views.BikeEventResponseWithParticipantsAndOrganizer:
+    properties:
+      aditional_information:
+        type: string
+      created_at:
+        type: string
+      end_date_registration:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      organizer:
+        $ref: '#/definitions/views.UserResponse'
+      participants:
+        items:
+          $ref: '#/definitions/views.UserResponse'
+        type: array
+      participants_limit:
+        type: integer
+      start_date:
+        type: string
+      start_date_registration:
+        type: string
+      start_place:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  views.LoginUserResponse:
+    properties:
+      token:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  views.UserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  views.UserResponseWithBikeEvents:
+    properties:
+      bike_events:
+        items:
+          $ref: '#/definitions/views.BikeEventResponse'
+        type: array
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: 'API REST em Go para gestão de eventos de ciclismo: usuários, inscrições
+    e autenticação com JWT.'
+  license:
+    name: MIT
+    url: https://github.com/matheusgb/cyclists/blob/main/LICENSE
+  title: Cyclists API
+  version: "1.0"
+paths:
+  /bike-event:
+    get:
+      description: Lista eventos com paginação e filtro por nome
+      parameters:
+      - description: Limite de itens por página
+        in: query
+        name: limit
+        type: integer
+      - description: Página
+        in: query
+        name: page
+        type: integer
+      - description: Campo de ordenação
+        in: query
+        name: sort
+        type: string
+      - description: Filtro por nome
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Lista eventos de ciclismo
+      tags:
+      - bike-events
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo evento de ciclismo em nome do usuário autenticado
+      parameters:
+      - description: Dados do evento
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateBikeEvent'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cria um evento de ciclismo
+      tags:
+      - bike-events
+  /bike-event/{id}:
+    delete:
+      description: Remove um evento. Requer o organizador ou privilégio de admin
+      parameters:
+      - description: ID do evento
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Remove um evento de ciclismo
+      tags:
+      - bike-events
+    get:
+      description: Retorna um evento pelo ID, com organizador e participantes
+      parameters:
+      - description: ID do evento
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/views.BikeEventResponseWithParticipantsAndOrganizer'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Busca um evento de ciclismo
+      tags:
+      - bike-events
+    patch:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um evento. Requer o organizador ou privilégio
+        de admin
+      parameters:
+      - description: ID do evento
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados a atualizar
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UpdateBikeEvent'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Atualiza um evento de ciclismo
+      tags:
+      - bike-events
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica um usuário e retorna um token JWT
+      parameters:
+      - description: Credenciais
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/views.LoginUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login
+      tags:
+      - auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Registra um novo usuário na plataforma
+      parameters:
+      - description: Dados do usuário
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cria um usuário
+      tags:
+      - users
+  /reset-password:
+    patch:
+      consumes:
+      - application/json
+      description: Redefine a senha do usuário autenticado pelo token de redefinição
+      parameters:
+      - description: Nova senha
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.ResetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Redefine a senha
+      tags:
+      - auth
+  /send-password-email:
+    post:
+      consumes:
+      - application/json
+      description: Envia um e-mail com o link de redefinição de senha via SendGrid
+      parameters:
+      - description: E-mail do usuário
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.SendPasswordResetEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Envia e-mail de redefinição de senha
+      tags:
+      - auth
+  /user:
+    get:
+      description: Lista usuários com paginação e filtro por e-mail
+      parameters:
+      - description: Limite de itens por página
+        in: query
+        name: limit
+        type: integer
+      - description: Página
+        in: query
+        name: page
+        type: integer
+      - description: Campo de ordenação
+        in: query
+        name: sort
+        type: string
+      - description: Filtro por e-mail
+        in: query
+        name: email
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Lista usuários
+      tags:
+      - users
+  /user-subscription:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a inscrição de um usuário em um evento de ciclismo
+      parameters:
+      - description: Dados da inscrição
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserSubscription'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cancela a inscrição de um usuário em um evento
+      tags:
+      - user-subscriptions
+    post:
+      consumes:
+      - application/json
+      description: Cria a inscrição de um usuário em um evento de ciclismo
+      parameters:
+      - description: Dados da inscrição
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserSubscription'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Inscreve um usuário em um evento
+      tags:
+      - user-subscriptions
+  /user/{id}:
+    delete:
+      description: Remove um usuário existente. Requer o próprio usuário ou privilégio
+        de admin
+      parameters:
+      - description: ID do usuário
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Remove um usuário
+      tags:
+      - users
+    get:
+      description: Retorna um usuário pelo ID
+      parameters:
+      - description: ID do usuário
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/views.UserResponseWithBikeEvents'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Busca um usuário
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um usuário. Requer o próprio usuário ou privilégio
+        de admin
+      parameters:
+      - description: ID do usuário
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados a atualizar
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Atualiza um usuário
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    description: 'Informe o token JWT no formato: Bearer {token}'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -7,6 +7,17 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/bikeEvent"
 )
 
+// DeleteBikeEvent godoc
+//
+//	@Summary		Remove um evento de ciclismo
+//	@Description	Remove um evento. Requer o organizador ou privilégio de admin
+//	@Tags			bike-events
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			id	path	string	true	"ID do evento"
+//	@Success		204
+//	@Failure		400	{object}	map[string]string
+//	@Router			/bike-event/{id} [delete]
 func (bikeEvent *BikeEvent) DeleteBikeEvent(ctx *fiber.Ctx) error {
 	bikeEventID := ctx.Params("id", "")
 	if bikeEventID == "" {

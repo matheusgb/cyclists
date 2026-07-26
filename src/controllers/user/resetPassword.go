@@ -7,6 +7,19 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
+// ResetPassword godoc
+//
+//	@Summary		Redefine a senha
+//	@Description	Redefine a senha do usuário autenticado pelo token de redefinição
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Security		BearerAuth
+//	@Param			request	body		requests.ResetPassword	true	"Nova senha"
+//	@Success		200		{object}	map[string]string
+//	@Failure		400		{object}	map[string]string
+//	@Failure		401		{object}	map[string]string
+//	@Router			/reset-password [patch]
 func (user *User) ResetPassword(ctx *fiber.Ctx) error {
 	var request requests.ResetPassword
 

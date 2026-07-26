@@ -9,6 +9,17 @@ import (
 	domains "github.com/matheusgb/cyclists/src/models/domains/user"
 )
 
+// CreateUser godoc
+//
+//	@Summary		Cria um usuário
+//	@Description	Registra um novo usuário na plataforma
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		requests.CreateUser	true	"Dados do usuário"
+//	@Success		201		{object}	map[string]string
+//	@Failure		400		{object}	map[string]string
+//	@Router			/register [post]
 func (user *User) CreateUser(ctx *fiber.Ctx) error {
 	var request requests.CreateUser
 
