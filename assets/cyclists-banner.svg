@@ -1,0 +1,36 @@
+<svg width="2172" height="724" viewBox="0 0 2172 724" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: "Arial Black", "Helvetica Neue", Arial, sans-serif; font-weight: 900; }
+      .tag { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="2172" height="724" fill="#14161c"/>
+
+  <!-- road, full width -->
+  <line x1="60" y1="560" x2="2112" y2="560" stroke="#2ea043" stroke-width="6"/>
+  <!-- lane dashes -->
+  <line x1="60" y1="560" x2="2112" y2="560" stroke="#f5efe0" stroke-width="3" stroke-dasharray="26 26" opacity="0.35"/>
+
+  <!-- pack of riders: small wheels trailing -->
+  <circle cx="230" cy="560" r="14" fill="none" stroke="#2ea043" stroke-width="5"/>
+  <circle cx="230" cy="560" r="3" fill="#2ea043"/>
+
+  <circle cx="470" cy="560" r="14" fill="none" stroke="#2ea043" stroke-width="5"/>
+  <circle cx="470" cy="560" r="3" fill="#2ea043"/>
+
+  <!-- lead wheel, larger, with spokes -->
+  <circle cx="1780" cy="560" r="46" fill="none" stroke="#f5efe0" stroke-width="7"/>
+  <circle cx="1780" cy="560" r="6" fill="#f5efe0"/>
+  <line x1="1780" y1="514" x2="1780" y2="606" stroke="#f5efe0" stroke-width="3"/>
+  <line x1="1734" y1="560" x2="1826" y2="560" stroke="#f5efe0" stroke-width="3"/>
+  <line x1="1747" y1="527" x2="1813" y2="593" stroke="#f5efe0" stroke-width="3"/>
+  <line x1="1747" y1="593" x2="1813" y2="527" stroke="#f5efe0" stroke-width="3"/>
+
+  <!-- word CYCLISTS -->
+  <text x="60" y="300" class="title" font-size="230" fill="#f5efe0" letter-spacing="-4">CYCLISTS</text>
+
+  <!-- tagline -->
+  <text x="64" y="450" class="tag" font-size="42" fill="#2ea043" letter-spacing="2">API REST EM GO PARA EVENTOS DE CICLISMO</text>
+</svg>
