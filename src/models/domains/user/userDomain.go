@@ -1,10 +1,8 @@
 package domains
 
-import (
-	"crypto/md5"
-	"encoding/hex"
-)
-
+// User é o domínio de usuário. Em InitCreate, InitLogin e InitResetPassword o
+// campo Password guarda a senha em texto puro, só em memória; o hash é gerado
+// na camada de service (HashPassword) antes de chegar ao repositório.
 type User struct {
 	ID                   string
 	Name                 string
@@ -16,7 +14,7 @@ type User struct {
 func InitCreate(email, password, name string) *User {
 	return &User{
 		Email:    email,
-		Password: encryptPassword(password),
+		Password: password,
 		Name:     name,
 	}
 }
@@ -37,7 +35,7 @@ func InitID(id string) *User {
 func InitLogin(email, password string) *User {
 	return &User{
 		Email:    email,
-		Password: encryptPassword(password),
+		Password: password,
 	}
 }
 
@@ -50,13 +48,6 @@ func InitSendPasswordResetEmail(email string) *User {
 func InitResetPassword(id, password string) *User {
 	return &User{
 		ID:       id,
-		Password: encryptPassword(password),
+		Password: password,
 	}
-}
-
-func encryptPassword(password string) string {
-	hash := md5.New()
-	defer hash.Reset()
-	hash.Write([]byte(password))
-	return hex.EncodeToString(hash.Sum(nil))
 }

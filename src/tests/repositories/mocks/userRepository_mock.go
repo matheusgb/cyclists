@@ -86,21 +86,6 @@ func (mr *MockIUserMockRecorder) FindUserByEmail(user any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByEmail", reflect.TypeOf((*MockIUser)(nil).FindUserByEmail), user)
 }
 
-// FindUserByEmailAndPassword mocks base method.
-func (m *MockIUser) FindUserByEmailAndPassword(user domains0.User) (entities.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserByEmailAndPassword", user)
-	ret0, _ := ret[0].(entities.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FindUserByEmailAndPassword indicates an expected call of FindUserByEmailAndPassword.
-func (mr *MockIUserMockRecorder) FindUserByEmailAndPassword(user any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByEmailAndPassword", reflect.TypeOf((*MockIUser)(nil).FindUserByEmailAndPassword), user)
-}
-
 // GetAllUsers mocks base method.
 func (m *MockIUser) GetAllUsers(pag *domains.Pagination, email string) (*domains.Pagination, error) {
 	m.ctrl.T.Helper()

@@ -858,7 +858,7 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string",
-                    "maxLength": 255,
+                    "maxLength": 72,
                     "minLength": 6
                 },
                 "password_confirmation": {
@@ -896,7 +896,7 @@ const docTemplate = `{
                 },
                 "password": {
                     "type": "string",
-                    "maxLength": 100,
+                    "maxLength": 72,
                     "minLength": 6
                 },
                 "password_confirmation": {
