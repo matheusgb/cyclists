@@ -36,7 +36,7 @@ func (user *User) LoginUser(domain domains.User) (string, entities.User, error) 
 // upgradeLegacyPassword troca o hash MD5 antigo por bcrypt depois de um login
 // válido. Se falhar, o login continua e a troca é tentada no próximo acesso.
 func (user *User) upgradeLegacyPassword(id uint, plain string) {
-	hash, err := domains.HashPassword(plain)
+	hash, err := domains.HashLegacyPassword(plain)
 	if err != nil {
 		log.Printf("password rehash skipped for user %d: %v", id, err)
 		return
