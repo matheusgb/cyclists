@@ -34,38 +34,28 @@ func TestResetPasswordService(t *testing.T) {
 	service := services.Init(repository)
 
 	t.Run("Success", func(t *testing.T) {
-		entity := entities.User{
-			Model: gorm.Model{
-				ID: 1,
-			},
-			Name:  "Test",
-			Email: "test@mail.com",
-		}
+		var saved domains.User
+		repository.EXPECT().UpdateUser(gomock.Any()).DoAndReturn(
+			func(d domains.User) (entities.User, error) {
+				saved = d
+				return entities.User{Model: gorm.Model{ID: 1}}, nil
+			})
 
-		repository.EXPECT().UpdateUser(*domain).Return(entity, nil)
-
-		entity, err := service.UpdateUser(*domain)
+		err := service.ResetPassword(*domain)
 
 		assert.NoError(t, err)
-		assert.Equal(t, uint(1), entity.ID)
-		assert.Equal(t, "Test", entity.Name)
-		assert.Equal(t, "test@mail.com", entity.Email)
+		assert.Equal(t, "1", saved.ID)
+		assert.NotEqual(t, "123456", saved.Password)
+		ok, needsRehash := domains.CheckPassword(saved.Password, "123456")
+		assert.True(t, ok)
+		assert.False(t, needsRehash)
 	})
 
 	t.Run("UserNotFound", func(t *testing.T) {
-		entity := entities.User{
-			Model: gorm.Model{
-				ID: 1,
-			},
-			Name:  "Test",
-			Email: "test@mail.com",
-		}
+		repository.EXPECT().UpdateUser(gomock.Any()).Return(entities.User{}, fmt.Errorf("user with id %s not found", domain.ID))
 
-		repository.EXPECT().UpdateUser(*domain).Return(entity, fmt.Errorf("user with id %s not found", domain.ID))
+		err := service.ResetPassword(*domain)
 
-		_, err := service.UpdateUser(*domain)
-
-		assert.Error(t, err)
-		assert.Equal(t, err.Error(), "user with id 1 not found")
+		assert.EqualError(t, err, "user not found")
 	})
 }
