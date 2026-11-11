@@ -43,7 +43,7 @@ definitions:
         minLength: 3
         type: string
       password:
-        maxLength: 255
+        maxLength: 72
         minLength: 6
         type: string
       password_confirmation:
@@ -71,7 +71,7 @@ definitions:
       email:
         type: string
       password:
-        maxLength: 100
+        maxLength: 72
         minLength: 6
         type: string
       password_confirmation:
