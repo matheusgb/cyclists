@@ -15,5 +15,11 @@ func (user *User) CreateUser(domain domains.User) (entities.User, error) {
 		return userFound, err
 	}
 
+	hash, err := domains.HashPassword(domain.Password)
+	if err != nil {
+		return userFound, fmt.Errorf("invalid password")
+	}
+	domain.Password = hash
+
 	return user.repository.CreateUser(domain)
 }

@@ -15,7 +15,6 @@ type IUser interface {
 	GetAllUsers(pag *domainsP.Pagination, email string) (*domainsP.Pagination, error)
 
 	FindUserByEmail(user domains.User) (entities.User, error)
-	FindUserByEmailAndPassword(user domains.User) (entities.User, error)
 }
 
 type User struct {
